@@ -5,6 +5,7 @@ import co.uk.legendeffects.openafk.handlers.AfkEvent;
 import co.uk.legendeffects.openafk.handlers.ReturnEvent;
 import co.uk.legendeffects.openafk.util.CheckTask;
 import co.uk.legendeffects.openafk.util.ConfigWrapper;
+import co.uk.legendeffects.openafk.util.DataHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +19,7 @@ public class OpenAFK extends JavaPlugin {
 
     private ConfigWrapper config;
     private ConfigWrapper messages;
+    private DataHandler playerData;
 
     public Set<Player> afkPlayers = new HashSet<>();
 
@@ -25,15 +27,16 @@ public class OpenAFK extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        config = new ConfigWrapper(this, "config.yml");
-        messages = new ConfigWrapper(this, "messages.yml");
+        this.config = new ConfigWrapper(this, "config.yml");
+        this.messages = new ConfigWrapper(this, "messages.yml");
+        this.playerData = new DataHandler(this);
 
-        getServer().getPluginManager().registerEvents(new AfkEvent(), this);
-        getServer().getPluginManager().registerEvents(new ReturnEvent(), this);
+        getServer().getPluginManager().registerEvents(new AfkEvent(this), this);
+        getServer().getPluginManager().registerEvents(new ReturnEvent(this), this);
 
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
 
-        new CheckTask(this).runTaskTimerAsynchronously(this, 0L, this.getConfig().getLong("checkInterval"));
+        new CheckTask(this).runTaskTimer(this, 0L, this.getConfig().getLong("checkInterval"));
     }
 
     static OpenAFK getPlugin() {
@@ -41,10 +44,14 @@ public class OpenAFK extends JavaPlugin {
     }
 
     public FileConfiguration getConfig() {
-        return this.config.getRaw();
+        return config.getRaw();
     }
 
     public FileConfiguration getMessages() {
-        return this.messages.getRaw();
+        return messages.getRaw();
+    }
+
+    public DataHandler getPlayerData() {
+        return playerData;
     }
 }

@@ -28,14 +28,14 @@ public class CheckTask extends BukkitRunnable {
         if(!this.openAFK.afkPlayers.contains(player)) {
             this.openAFK.afkPlayers.add(player);
 
-            PlayerAfkEvent event = new PlayerAfkEvent(true, player);
+            PlayerAfkEvent event = new PlayerAfkEvent(false, player);
             this.openAFK.getServer().getPluginManager().callEvent(event);
         }
     }
 
     private void sendOutNonAfk(Player player) {
         if(this.openAFK.afkPlayers.contains(player)) {
-            PlayerReturnEvent event = new PlayerReturnEvent(true, player);
+            PlayerReturnEvent event = new PlayerReturnEvent(false, player);
             this.openAFK.getServer().getPluginManager().callEvent(event);
 
             this.openAFK.afkPlayers.remove(player);

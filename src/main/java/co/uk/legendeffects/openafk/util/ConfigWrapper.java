@@ -22,7 +22,6 @@ public class ConfigWrapper {
     private final File file;
     private FileConfiguration config;
 
-
     public ConfigWrapper(JavaPlugin plugin, String path) {
         this.plugin = plugin;
         this.path = path;
