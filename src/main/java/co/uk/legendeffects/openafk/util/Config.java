@@ -1,6 +1,6 @@
 package co.uk.legendeffects.openafk.util;
 
-import co.uk.legendeffects.openafk.Core;
+import co.uk.legendeffects.openafk.OpenAFK;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Config {
-    private Core core;
+    private OpenAFK openAFK;
     private HashMap<String, FileConfiguration> configurations = new HashMap<String, FileConfiguration>();
 
-    public Config(Core core) {
-        this.core = core;
+    public Config(OpenAFK openAFK) {
+        this.openAFK = openAFK;
     }
 
     public FileConfiguration getConfig(String configName) {
@@ -26,12 +26,12 @@ public class Config {
     }
 
     public void createConfig(String configName) {
-        File config = new File(core.getDataFolder(), configName);
+        File config = new File(openAFK.getDataFolder(), configName);
         if(!config.exists()) {
             if(config.getParentFile().mkdirs()) {
-                core.saveResource(configName, false);
+                openAFK.saveResource(configName, false);
             } else {
-                core.getServer().getConsoleSender().sendMessage("Unable to create config folder, please check file permissions.");
+                openAFK.getServer().getConsoleSender().sendMessage("Unable to create config folder, please check file permissions.");
             }
         }
 
