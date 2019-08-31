@@ -1,0 +1,12 @@
+name: OpenAFK
+version: ${project.version}
+main: co.uk.legendeffects.openafk.Core
+api-version: 1.13
+authors: [LegendEffects]
+description: The Open Source AFK Plugin
+website: legendeffects.co.uk
+
+commands:
+  test:
+    description: Test Command
+    usage: /test
