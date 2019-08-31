@@ -1,5 +1,13 @@
 package co.uk.legendeffects.openafk.util;
 
-public class DataHandler {
+import org.bukkit.entity.Player;
 
+public class DataHandler {
+    public DataHandler() {
+
+    }
+
+    public void createPlayerData(Player player) {
+
+    }
 }

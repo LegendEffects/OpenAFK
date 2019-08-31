@@ -6,10 +6,10 @@ import java.util.Set;
 
 public class API {
     public boolean isAfk(Player player) {
-        return OpenAFK.getInstance().afkPlayers.contains(player);
+        return OpenAFK.getPlugin().afkPlayers.contains(player);
     }
 
     public Set<Player> getAfkSet() {
-        return OpenAFK.getInstance().afkPlayers;
+        return OpenAFK.getPlugin().afkPlayers;
     }
 }

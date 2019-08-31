@@ -1,4 +1,19 @@
 package co.uk.legendeffects.openafk.handlers;
 
-public class PlayerDisconnect {
+import co.uk.legendeffects.openafk.OpenAFK;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+public class PlayerDisconnect implements Listener {
+
+    private OpenAFK openAFK;
+    public PlayerDisconnect(OpenAFK openAFK) {
+        this.openAFK = openAFK;
+    }
+
+    @EventHandler
+    public void Handler(PlayerQuitEvent event) {
+        this.openAFK.afkPlayers.remove(event.getPlayer());
+    }
 }

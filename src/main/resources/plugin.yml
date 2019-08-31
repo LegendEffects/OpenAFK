@@ -7,6 +7,6 @@ description: The Open Source AFK Plugin
 website: legendeffects.co.uk
 
 commands:
-  test:
-    description: Test Command
-    usage: /test
+  openafk:
+    description: Main OpenAFK command
+    usage: /openafk

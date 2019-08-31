@@ -21,7 +21,7 @@ public class CheckTask extends BukkitRunnable {
 
     private boolean movedEnough(Player player) {
         if(!lastLocations.containsKey(player)) return true;
-        return lastLocations.get(player).distance(player.getLocation()) > this.openAFK.getConfig("config.yml").getInt("movementDistance");
+        return lastLocations.get(player).distance(player.getLocation()) > this.openAFK.getConfig().getInt("movementDistance");
     }
 
     private void sendOutAfk(Player player) {
@@ -50,7 +50,7 @@ public class CheckTask extends BukkitRunnable {
             if(!this.movedEnough(player)) {
                 if(checkAmounts.containsKey(player)) {
                     int currentAmount = checkAmounts.get(player);
-                    if(currentAmount == this.openAFK.getConfig("config.yml").getInt("checksBeforeAfk")) {
+                    if(currentAmount == this.openAFK.getConfig().getInt("checksBeforeAfk")) {
                         sendOutAfk(player);
                     } else {
                         checkAmounts.replace(player, currentAmount+1);
