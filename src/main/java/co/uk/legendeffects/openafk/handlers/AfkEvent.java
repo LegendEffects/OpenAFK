@@ -24,6 +24,11 @@ public class AfkEvent implements Listener {
         data.set("location", new LocationHelper().serialize(player.getLocation()));
         plugin.getPlayerData().savePlayer(player);
 
+        Location newLocation = new LocationHelper().deserialize(plugin.getData().getString("afkLocation"));
+
+        player.teleport(newLocation);
+        plugin.lastLocations.replace(player, newLocation);
+
         player.sendTitle("You are now AFK.", "See you soon!", 10, 5000, 10);
         player.sendMessage("You are now AFK");
     }

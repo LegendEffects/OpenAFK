@@ -1,6 +1,7 @@
 package co.uk.legendeffects.openafk.commands;
 
 import co.uk.legendeffects.openafk.OpenAFK;
+import co.uk.legendeffects.openafk.util.LocationHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,9 +10,9 @@ import org.bukkit.entity.Player;
 
 public class OpenAFKCommand implements CommandExecutor {
 
-    private OpenAFK core;
+    private OpenAFK plugin;
     public OpenAFKCommand(OpenAFK core) {
-        this.core = core;
+        this.plugin = core;
     }
 
     public void showHelpMenu(Player player) {
@@ -24,15 +25,24 @@ public class OpenAFKCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender.hasPermission("openafk.admin")) {
+            Player player = (Player) sender;
 
             if(args.length == 0) {
-                showHelpMenu((Player) sender);
+                showHelpMenu(player);
+                return true;
+            }
+
+            if(args[0].equalsIgnoreCase("setafkarea")) {
+                plugin.getData().set("afkLocation", new LocationHelper().serialize(player.getLocation()));
+                plugin.saveData();
+                player.sendMessage("Set location.");
+                return true;
             }
 
 
 
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', core.getMessages().getString("Prefix")+core.getMessages().getString("InsufficientPermissions")));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("Prefix")+plugin.getMessages().getString("InsufficientPermissions")));
         }
 
         return true;

@@ -20,6 +20,7 @@ public class ReturnEvent implements Listener {
 
         FileConfiguration data = plugin.getPlayerData().getPlayer(event.getPlayer());
         event.getPlayer().teleport(new LocationHelper().deserialize(data.getString("location")));
+        plugin.getPlayerData().deletePlayer(event.getPlayer());
 
         event.getPlayer().sendMessage("Welcome Back!");
     }

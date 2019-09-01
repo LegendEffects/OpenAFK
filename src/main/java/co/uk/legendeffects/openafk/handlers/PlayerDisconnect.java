@@ -14,6 +14,7 @@ public class PlayerDisconnect implements Listener {
 
     @EventHandler
     public void Handler(PlayerQuitEvent event) {
+        this.openAFK.getPlayerData().unloadPlayer(event.getPlayer());
         this.openAFK.afkPlayers.remove(event.getPlayer());
     }
 }

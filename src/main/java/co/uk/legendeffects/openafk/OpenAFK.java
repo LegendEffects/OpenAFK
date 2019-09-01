@@ -2,14 +2,19 @@ package co.uk.legendeffects.openafk;
 
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
 import co.uk.legendeffects.openafk.handlers.AfkEvent;
+import co.uk.legendeffects.openafk.handlers.PlayerConnect;
+import co.uk.legendeffects.openafk.handlers.PlayerDisconnect;
 import co.uk.legendeffects.openafk.handlers.ReturnEvent;
 import co.uk.legendeffects.openafk.util.CheckTask;
 import co.uk.legendeffects.openafk.util.ConfigWrapper;
 import co.uk.legendeffects.openafk.util.DataHandler;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,9 +24,11 @@ public class OpenAFK extends JavaPlugin {
 
     private ConfigWrapper config;
     private ConfigWrapper messages;
+    private ConfigWrapper data;
     private DataHandler playerData;
 
     public Set<Player> afkPlayers = new HashSet<>();
+    public HashMap<Player, Location> lastLocations = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -29,10 +36,15 @@ public class OpenAFK extends JavaPlugin {
 
         this.config = new ConfigWrapper(this, "config.yml");
         this.messages = new ConfigWrapper(this, "messages.yml");
+        this.data = new ConfigWrapper(this, "data.yml");
         this.playerData = new DataHandler(this);
 
-        getServer().getPluginManager().registerEvents(new AfkEvent(this), this);
-        getServer().getPluginManager().registerEvents(new ReturnEvent(this), this);
+        PluginManager manager = getServer().getPluginManager();
+
+        manager.registerEvents(new AfkEvent(this), this);
+        manager.registerEvents(new ReturnEvent(this), this);
+        manager.registerEvents(new PlayerConnect(this), this);
+        manager.registerEvents(new PlayerDisconnect(this), this);
 
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
 
@@ -43,15 +55,22 @@ public class OpenAFK extends JavaPlugin {
         return instance;
     }
 
+
     public FileConfiguration getConfig() {
         return config.getRaw();
     }
-
     public FileConfiguration getMessages() {
         return messages.getRaw();
+    }
+    public FileConfiguration getData() {
+        return data.getRaw();
+    }
+    public void saveData() {
+        data.save();
     }
 
     public DataHandler getPlayerData() {
         return playerData;
     }
+
 }

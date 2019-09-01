@@ -50,7 +50,17 @@ public class DataHandler {
         return this.loadPlayerData(player);
     }
 
+    public void unloadPlayer(Player player) {
+        attributedData.remove(player);
+    }
+
     public boolean deletePlayer(Player player) {
+        unloadPlayer(player);
         return new File(plugin.getDataFolder(), "players"+File.separator+player.getUniqueId().toString()+".yml").delete();
+    }
+
+    public boolean playerHasData(Player player) {
+        File file = new File(plugin.getDataFolder(), "players" + File.separator + player.getUniqueId().toString() + ".yml");
+        return file.exists();
     }
 }
