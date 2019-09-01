@@ -54,6 +54,13 @@ public class OpenAFK extends JavaPlugin {
         manager.registerEvents(new PlayerConnect(this), this);
         manager.registerEvents(new PlayerDisconnect(this), this);
 
+        getServer().getOnlinePlayers().forEach(player -> {
+            if(playerData.playerHasData(player)) {
+                playerData.getPlayer(player);
+                afkPlayers.add(player);
+            }
+        });
+
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
 
         new CheckTask(this).runTaskTimer(this, 0L, this.getConfig().getLong("checkInterval"));

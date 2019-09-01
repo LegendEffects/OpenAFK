@@ -3,6 +3,8 @@ package co.uk.legendeffects.openafk.util;
 import co.uk.legendeffects.openafk.OpenAFK;
 import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
 import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
+import org.bukkit.GameMode;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -18,7 +20,7 @@ public class CheckTask extends BukkitRunnable {
     }
 
     private boolean movedEnough(Player player) {
-        if(!plugin.lastLocations.containsKey(player)) return true;
+        if(!plugin.lastLocations.containsKey(player)) return false;
         return plugin.lastLocations.get(player).distance(player.getLocation()) > this.plugin.getConfig().getInt("movementDistance");
     }
 
@@ -27,9 +29,11 @@ public class CheckTask extends BukkitRunnable {
             PlayerAfkEvent event = new PlayerAfkEvent(false, player);
             plugin.getServer().getPluginManager().callEvent(event);
 
-            plugin.afkPlayers.add(player);
+            if(!event.isCancelled()) {
+                plugin.afkPlayers.add(player);
 
-            plugin.getActionOrchestrator().executeAfk(event);
+                plugin.getActionOrchestrator().executeAfk(event);
+            }
         }
     }
 
@@ -38,10 +42,12 @@ public class CheckTask extends BukkitRunnable {
             PlayerReturnEvent event = new PlayerReturnEvent(false, player);
             plugin.getServer().getPluginManager().callEvent(event);
 
-            plugin.afkPlayers.remove(player);
-            checkAmounts.remove(player);
+            if(!event.isCancelled()) {
+                plugin.afkPlayers.remove(player);
+                checkAmounts.remove(player);
 
-            plugin.getActionOrchestrator().executeReturn(event);
+                plugin.getActionOrchestrator().executeReturn(event);
+            }
         }
 
     }
@@ -49,6 +55,17 @@ public class CheckTask extends BukkitRunnable {
     @Override
     public void run() {
         this.plugin.getServer().getOnlinePlayers().forEach(player -> {
+            // Cancel for conditions
+            if(player.hasPermission("openafk.exempt")) return;
+
+            FileConfiguration c = plugin.getConfig();
+            if(c.getBoolean("detection.operatorsExempt") && player.isOp()) return;
+
+            if(!c.getBoolean("detection.gamemodes.survival") && player.getGameMode() == GameMode.SURVIVAL) return;
+            if(!c.getBoolean("detection.gamemodes.adventure") && player.getGameMode() == GameMode.ADVENTURE) return;
+            if(!c.getBoolean("detection.gamemodes.creative") && player.getGameMode() == GameMode.CREATIVE) return;
+            if(!c.getBoolean("detection.gamemodes.spectator") && player.getGameMode() == GameMode.SPECTATOR) return;
+
             if(!this.movedEnough(player)) {
                 if(checkAmounts.containsKey(player)) {
                     int currentAmount = checkAmounts.get(player);
