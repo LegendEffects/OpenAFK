@@ -8,6 +8,10 @@ import co.uk.legendeffects.openafk.handlers.ReturnEvent;
 import co.uk.legendeffects.openafk.util.CheckTask;
 import co.uk.legendeffects.openafk.util.ConfigWrapper;
 import co.uk.legendeffects.openafk.util.DataHandler;
+import co.uk.legendeffects.openafk.util.PAPIHook;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -23,7 +27,6 @@ public class OpenAFK extends JavaPlugin {
     private static OpenAFK instance;
 
     private ConfigWrapper config;
-    private ConfigWrapper messages;
     private ConfigWrapper data;
     private DataHandler playerData;
 
@@ -35,9 +38,10 @@ public class OpenAFK extends JavaPlugin {
         instance = this;
 
         this.config = new ConfigWrapper(this, "config.yml");
-        this.messages = new ConfigWrapper(this, "messages.yml");
         this.data = new ConfigWrapper(this, "data.yml");
         this.playerData = new DataHandler(this);
+
+        PlaceholderAPI.registerExpansion(new PAPIHook(this));
 
         PluginManager manager = getServer().getPluginManager();
 
@@ -51,6 +55,13 @@ public class OpenAFK extends JavaPlugin {
         new CheckTask(this).runTaskTimer(this, 0L, this.getConfig().getLong("checkInterval"));
     }
 
+    public static String parse(final Player player, final String s) {
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            return PlaceholderAPI.setPlaceholders(player, s);
+        }
+        return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
     static OpenAFK getPlugin() {
         return instance;
     }
@@ -59,15 +70,7 @@ public class OpenAFK extends JavaPlugin {
     public FileConfiguration getConfig() {
         return config.getRaw();
     }
-    public FileConfiguration getMessages() {
-        return messages.getRaw();
-    }
-    public FileConfiguration getData() {
-        return data.getRaw();
-    }
-    public void saveData() {
-        data.save();
-    }
+    public ConfigWrapper getData() { return data; }
 
     public DataHandler getPlayerData() {
         return playerData;

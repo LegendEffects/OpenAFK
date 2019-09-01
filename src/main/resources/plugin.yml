@@ -6,6 +6,8 @@ authors: [LegendEffects]
 description: The Open Source AFK Plugin
 website: legendeffects.co.uk
 
+softdepend: [PlaceholderAPI]
+
 commands:
   openafk:
     description: Main OpenAFK command

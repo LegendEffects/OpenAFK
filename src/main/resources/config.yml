@@ -1,4 +1,47 @@
 checkInterval: 60  # In ticks (20 ticks = 1 second)
 movementDistance: 2 # Amount of blocks a player needs to move to be counted as not afk
-
 checksBeforeAfk: 100 # Amount of checks a person needs to not have moved enough to be AFK
+
+messages:
+  prefix: '&9OpenAFK> &7'
+  insufficientPermissions: '{prefix}Insufficient Permissions.'
+
+detection:
+  gamemodes:
+    survival: true
+    adventure: true
+    creative: false # This will disable players from going afk if they are in this gamemode
+    spectator: false
+
+  operatorsExempt: true # Players who have the permission openafk.exempt will also be exempt
+
+actions:
+  broadcast:
+    enabled: true
+    needPermission: false # if this is enabled then only users with the permission openafk.announce will be able to see the broadcast
+    message: '%openafk_prefix%%player_name% is AFK.'
+    returnMessage: '%openafk_prefix%%player_name% is no longer AFK.'
+
+  afkzone: # Please set the afk zone with /openafk setafkarea
+    enabled: true
+
+  title:
+    enabled: true
+    message:
+      title: '&c&lAFK'
+      subtitle: '&7See you soon!'
+      fadeIn: 10
+      fadeOut: 10
+
+    returnMessage:
+      title: '&a&lWelcome Back!'
+      subtitle: ''
+      fadeIn: 10
+      fadeOut: 10
+      length: 1000
+
+  message:
+    enabled: true
+    message: '%openafk_prefix%See you soon %player_name%!'
+    returnMessage: '%openafk_prefix%Welcome back %player_name%!'
+

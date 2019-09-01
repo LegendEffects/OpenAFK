@@ -24,8 +24,8 @@ public class OpenAFKCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player player = (Player) sender;
         if(sender.hasPermission("openafk.admin")) {
-            Player player = (Player) sender;
 
             if(args.length == 0) {
                 showHelpMenu(player);
@@ -33,8 +33,8 @@ public class OpenAFKCommand implements CommandExecutor {
             }
 
             if(args[0].equalsIgnoreCase("setafkarea")) {
-                plugin.getData().set("afkLocation", new LocationHelper().serialize(player.getLocation()));
-                plugin.saveData();
+                plugin.getData().getRaw().set("afkLocation", new LocationHelper().serialize(player.getLocation()));
+                plugin.getData().save();
                 player.sendMessage("Set location.");
                 return true;
             }
@@ -42,7 +42,7 @@ public class OpenAFKCommand implements CommandExecutor {
 
 
         } else {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessages().getString("Prefix")+plugin.getMessages().getString("InsufficientPermissions")));
+            sender.sendMessage(OpenAFK.parse(player, plugin.getConfig().getString("messages.insufficientPermissions")));
         }
 
         return true;
