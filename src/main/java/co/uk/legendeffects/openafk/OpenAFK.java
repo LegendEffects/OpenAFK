@@ -1,10 +1,9 @@
 package co.uk.legendeffects.openafk;
 
+import co.uk.legendeffects.openafk.actions.*;
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
-import co.uk.legendeffects.openafk.handlers.AfkEvent;
 import co.uk.legendeffects.openafk.handlers.PlayerConnect;
 import co.uk.legendeffects.openafk.handlers.PlayerDisconnect;
-import co.uk.legendeffects.openafk.handlers.ReturnEvent;
 import co.uk.legendeffects.openafk.util.CheckTask;
 import co.uk.legendeffects.openafk.util.ConfigWrapper;
 import co.uk.legendeffects.openafk.util.DataHandler;
@@ -29,6 +28,7 @@ public class OpenAFK extends JavaPlugin {
     private ConfigWrapper config;
     private ConfigWrapper data;
     private DataHandler playerData;
+    private ActionOrchestrator actionOrchestrator;
 
     public Set<Player> afkPlayers = new HashSet<>();
     public HashMap<Player, Location> lastLocations = new HashMap<>();
@@ -41,12 +41,16 @@ public class OpenAFK extends JavaPlugin {
         this.data = new ConfigWrapper(this, "data.yml");
         this.playerData = new DataHandler(this);
 
+        this.actionOrchestrator = new ActionOrchestrator(this);
+        actionOrchestrator.registerAction(new Message());
+        actionOrchestrator.registerAction(new Broadcast());
+        actionOrchestrator.registerAction(new Title());
+        actionOrchestrator.registerAction(new AfkArea());
+
         PlaceholderAPI.registerExpansion(new PAPIHook(this));
 
         PluginManager manager = getServer().getPluginManager();
 
-        manager.registerEvents(new AfkEvent(this), this);
-        manager.registerEvents(new ReturnEvent(this), this);
         manager.registerEvents(new PlayerConnect(this), this);
         manager.registerEvents(new PlayerDisconnect(this), this);
 
@@ -76,4 +80,5 @@ public class OpenAFK extends JavaPlugin {
         return playerData;
     }
 
+    public ActionOrchestrator getActionOrchestrator() { return actionOrchestrator; }
 }

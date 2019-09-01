@@ -8,7 +8,7 @@ public class PlayerReturnEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private Player player;
 
-    public PlayerReturnEvent(Boolean async, Player player) {
+    public PlayerReturnEvent(boolean async, Player player) {
         super(async);
         this.player = player;
     }

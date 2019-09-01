@@ -4,7 +4,9 @@ checksBeforeAfk: 100 # Amount of checks a person needs to not have moved enough 
 
 messages:
   prefix: '&9OpenAFK> &7'
-  insufficientPermissions: '{prefix}Insufficient Permissions.'
+  insufficientPermissions: '%openafk_prefix%Insufficient Permissions.'
+  invalidUsage: '%openafk_prefix%Invalid Usage.'
+  afkAreaSet: '%openafk_prefix%}AFK Area set successfully.'
 
 detection:
   gamemodes:
@@ -19,10 +21,14 @@ actions:
   broadcast:
     enabled: true
     needPermission: false # if this is enabled then only users with the permission openafk.announce will be able to see the broadcast
+
+    onAfk: true
     message: '%openafk_prefix%%player_name% is AFK.'
+
+    onReturn: true
     returnMessage: '%openafk_prefix%%player_name% is no longer AFK.'
 
-  afkzone: # Please set the afk zone with /openafk setafkarea
+  afkArea: # Please set the afk zone with /openafk setafkarea
     enabled: true
 
   title:
@@ -38,7 +44,7 @@ actions:
       subtitle: ''
       fadeIn: 10
       fadeOut: 10
-      length: 1000
+      length: 40
 
   message:
     enabled: true

@@ -1,5 +1,7 @@
 package co.uk.legendeffects.openafk;
 
+import co.uk.legendeffects.openafk.actions.ActionExecutor;
+import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -15,4 +17,8 @@ public class API {
     }
 
     public void overrideLastLocation(Player player, Location newLocation) { OpenAFK.getPlugin().lastLocations.replace(player, newLocation); }
+
+    public void addActionExecutor(ActionExecutor action) {
+        OpenAFK.getPlugin().getActionOrchestrator().registerAction(action);
+    }
 }

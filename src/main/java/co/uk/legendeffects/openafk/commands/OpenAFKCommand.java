@@ -19,6 +19,7 @@ public class OpenAFKCommand implements CommandExecutor {
         String genericCommand = ChatColor.RED + "/openafk ";
 
         player.sendMessage(ChatColor.GRAY + "---- " + ChatColor.BLUE + "OpenAFK Help" + ChatColor.GRAY + " ----");
+        player.sendMessage(genericCommand + "set <afkArea>" + ChatColor.GRAY + " - Shows this help menu");
         player.sendMessage(genericCommand + "help" + ChatColor.GRAY + " - Shows this help menu");
     }
 
@@ -30,17 +31,20 @@ public class OpenAFKCommand implements CommandExecutor {
             if(args.length == 0) {
                 showHelpMenu(player);
                 return true;
+            } else {
+                if(args[0].equalsIgnoreCase("set")) {
+                    if(args[1].equalsIgnoreCase("afkarea")) {
+                        plugin.getData().getRaw().set("afkLocation", new LocationHelper().serialize(player.getLocation()));
+                        plugin.getData().save();
+                        player.sendMessage(OpenAFK.parse(player, plugin.getConfig().getString("messages.afkAreaSet")));
+                        return true;
+                    } else {
+                        player.sendMessage(OpenAFK.parse(player, plugin.getConfig().getString("messages.invalidUsage")));
+                    }
+                } else if(args[0].equalsIgnoreCase("help")) {
+                    showHelpMenu(player);
+                }
             }
-
-            if(args[0].equalsIgnoreCase("setafkarea")) {
-                plugin.getData().getRaw().set("afkLocation", new LocationHelper().serialize(player.getLocation()));
-                plugin.getData().save();
-                player.sendMessage("Set location.");
-                return true;
-            }
-
-
-
         } else {
             sender.sendMessage(OpenAFK.parse(player, plugin.getConfig().getString("messages.insufficientPermissions")));
         }

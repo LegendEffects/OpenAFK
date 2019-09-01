@@ -24,10 +24,12 @@ public class CheckTask extends BukkitRunnable {
 
     private void sendOutAfk(Player player) {
         if(!plugin.afkPlayers.contains(player)) {
-            plugin.afkPlayers.add(player);
-
             PlayerAfkEvent event = new PlayerAfkEvent(false, player);
             plugin.getServer().getPluginManager().callEvent(event);
+
+            plugin.afkPlayers.add(player);
+
+            plugin.getActionOrchestrator().executeAfk(event);
         }
     }
 
@@ -38,6 +40,8 @@ public class CheckTask extends BukkitRunnable {
 
             plugin.afkPlayers.remove(player);
             checkAmounts.remove(player);
+
+            plugin.getActionOrchestrator().executeReturn(event);
         }
 
     }

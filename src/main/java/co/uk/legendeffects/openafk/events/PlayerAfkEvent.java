@@ -8,7 +8,7 @@ public class PlayerAfkEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private Player player;
 
-    public PlayerAfkEvent(Boolean async, Player player) {
+    public PlayerAfkEvent(boolean async, Player player) {
         super(async);
         this.player = player;
     }
