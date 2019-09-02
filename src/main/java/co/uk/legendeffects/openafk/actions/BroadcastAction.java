@@ -6,7 +6,7 @@ import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class Broadcast implements ActionExecutor {
+public final class BroadcastAction implements ActionExecutor {
     @Override
     public boolean isEnabled(OpenAFK plugin) {
         return plugin.getConfig().getBoolean("actions.broadcast.enabled");

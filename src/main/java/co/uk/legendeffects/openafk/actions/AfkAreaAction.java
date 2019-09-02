@@ -7,7 +7,7 @@ import co.uk.legendeffects.openafk.util.LocationHelper;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class AfkArea implements ActionExecutor {
+public final class AfkAreaAction implements ActionExecutor {
     @Override
     public boolean isEnabled(OpenAFK plugin) {
         return plugin.getConfig().getBoolean("actions.afkArea.enabled");

@@ -4,7 +4,7 @@ import co.uk.legendeffects.openafk.OpenAFK;
 import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
 import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
 
-public class Message implements ActionExecutor {
+public final class MessageAction implements ActionExecutor {
 
     @Override
     public boolean isEnabled(OpenAFK plugin) {

@@ -88,9 +88,7 @@ public class OpenAFK extends JavaPlugin {
 
     public ActionRegistry getActionRegistry() { return actionRegistry; }
 
-    public void addAfkPlayer(Player player) {
-        afkPlayers.add(player);
-    }
+    public void addAfkPlayer(Player player) { afkPlayers.add(player); }
     public void removeAfkPlayer(Player player) { afkPlayers.remove(player); }
     public boolean isAfkPlayer(Player player) { return afkPlayers.contains(player); }
 

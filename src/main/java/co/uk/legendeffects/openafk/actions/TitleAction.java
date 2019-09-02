@@ -5,7 +5,7 @@ import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
 import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class Title implements ActionExecutor {
+public class TitleAction implements ActionExecutor {
     @Override
     public boolean isEnabled(OpenAFK plugin) {
         return plugin.getConfig().getBoolean("actions.title.enabled");
