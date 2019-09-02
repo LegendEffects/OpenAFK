@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerDisconnect implements Listener {
 
-    private OpenAFK openAFK;
+    final private OpenAFK openAFK;
     public PlayerDisconnect(OpenAFK openAFK) {
         this.openAFK = openAFK;
     }
@@ -15,6 +15,6 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void Handler(PlayerQuitEvent event) {
         this.openAFK.getPlayerData().unloadPlayer(event.getPlayer());
-        this.openAFK.afkPlayers.remove(event.getPlayer());
+        this.openAFK.removeAfkPlayer(event.getPlayer());
     }
 }

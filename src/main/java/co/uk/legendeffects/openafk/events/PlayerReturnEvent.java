@@ -2,21 +2,15 @@ package co.uk.legendeffects.openafk.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 
-public class PlayerReturnEvent extends Event implements Cancellable {
+public class PlayerReturnEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
-    private Player player;
     private boolean cancelled;
 
-    public PlayerReturnEvent(boolean async, Player player) {
-        super(async);
-        this.player = player;
-    }
-
-    public Player getPlayer() {
-        return player;
+    public PlayerReturnEvent(Player player) {
+        super(player);
     }
 
     public HandlerList getHandlers() {

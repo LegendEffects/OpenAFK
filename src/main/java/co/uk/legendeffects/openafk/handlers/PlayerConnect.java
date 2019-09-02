@@ -10,8 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerConnect implements Listener {
 
-    private OpenAFK plugin;
-
+    final private OpenAFK plugin;
     public PlayerConnect(OpenAFK plugin) {
         this.plugin = plugin;
     }
@@ -22,7 +21,7 @@ public class PlayerConnect implements Listener {
         DataHandler data = plugin.getPlayerData();
 
         if(data.playerHasData(player)) {
-            player.teleport(new LocationHelper().deserialize(data.getPlayer(player).getString("location")));
+            player.teleport(LocationHelper.deserialize(data.getPlayer(player).getString("location")));
             data.deletePlayer(player);
 
             player.resetTitle();

@@ -3,15 +3,17 @@ package co.uk.legendeffects.openafk.util;
 import co.uk.legendeffects.openafk.OpenAFK;
 import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
 import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
-public class CheckTask extends BukkitRunnable {
-    private HashMap<Player, Integer> checkAmounts = new HashMap<>();
+public final class CheckTask extends BukkitRunnable {
+    private final HashMap<Player, Integer> checkAmounts = new HashMap<>();
 
     private final OpenAFK plugin;
 
@@ -20,33 +22,40 @@ public class CheckTask extends BukkitRunnable {
     }
 
     private boolean movedEnough(Player player) {
-        if(!plugin.lastLocations.containsKey(player)) return false;
-        return plugin.lastLocations.get(player).distance(player.getLocation()) > this.plugin.getConfig().getInt("movementDistance");
+        Location lastLocation = plugin.getLastLocation(player);
+        if(lastLocation == null) {
+            return false;
+        }
+
+        boolean movedEnough = plugin.getLastLocation(player).distance(player.getLocation()) > this.plugin.getConfig().getInt("movementDistance");
+        plugin.setLastLocation(player, player.getLocation());
+
+        return movedEnough;
     }
 
     private void sendOutAfk(Player player) {
-        if(!plugin.afkPlayers.contains(player)) {
-            PlayerAfkEvent event = new PlayerAfkEvent(false, player);
-            plugin.getServer().getPluginManager().callEvent(event);
+        if(!plugin.isAfkPlayer(player)) {
+            PlayerAfkEvent event = new PlayerAfkEvent(player);
+            Bukkit.getPluginManager().callEvent(event);
 
             if(!event.isCancelled()) {
-                plugin.afkPlayers.add(player);
+                plugin.addAfkPlayer(player);
 
-                plugin.getActionOrchestrator().executeAfk(event);
+                plugin.getActionRegistry().executeAfk(event);
             }
         }
     }
 
     private void sendOutNonAfk(Player player) {
-        if(plugin.afkPlayers.contains(player)) {
-            PlayerReturnEvent event = new PlayerReturnEvent(false, player);
-            plugin.getServer().getPluginManager().callEvent(event);
+        if(plugin.isAfkPlayer(player)) {
+            PlayerReturnEvent event = new PlayerReturnEvent(player);
+            Bukkit.getPluginManager().callEvent(event);
 
             if(!event.isCancelled()) {
-                plugin.afkPlayers.remove(player);
+                plugin.removeAfkPlayer(player);
                 checkAmounts.remove(player);
 
-                plugin.getActionOrchestrator().executeReturn(event);
+                plugin.getActionRegistry().executeReturn(event);
             }
         }
 
@@ -66,26 +75,22 @@ public class CheckTask extends BukkitRunnable {
             if(!c.getBoolean("detection.gamemodes.creative") && player.getGameMode() == GameMode.CREATIVE) return;
             if(!c.getBoolean("detection.gamemodes.spectator") && player.getGameMode() == GameMode.SPECTATOR) return;
 
-            if(!this.movedEnough(player)) {
-                if(checkAmounts.containsKey(player)) {
-                    int currentAmount = checkAmounts.get(player);
-                    if(currentAmount == this.plugin.getConfig().getInt("checksBeforeAfk")) {
-                        sendOutAfk(player);
-                    } else {
-                        checkAmounts.replace(player, currentAmount+1);
-                    }
-                } else {
-                    checkAmounts.put(player, 1);
-                }
-            } else {
+            if(this.movedEnough(player)) {
                 sendOutNonAfk(player);
+                return;
             }
 
-            if(plugin.lastLocations.containsKey(player)) {
-                plugin.lastLocations.replace(player, player.getLocation());
-            } else {
-                plugin.lastLocations.put(player, player.getLocation());
+            if(!checkAmounts.containsKey(player)) {
+                checkAmounts.put(player, 1);
+                return;
             }
+
+            int currentAmount = checkAmounts.get(player);
+            if(currentAmount == this.plugin.getConfig().getInt("checksBeforeAfk")) {
+                sendOutAfk(player);
+                return;
+            }
+            checkAmounts.put(player, currentAmount+1);
         });
     }
 }

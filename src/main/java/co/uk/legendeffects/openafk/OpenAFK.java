@@ -28,10 +28,10 @@ public class OpenAFK extends JavaPlugin {
     private ConfigWrapper config;
     private ConfigWrapper data;
     private DataHandler playerData;
-    private ActionOrchestrator actionOrchestrator;
+    private ActionRegistry actionRegistry;
 
-    public Set<Player> afkPlayers = new HashSet<>();
-    public HashMap<Player, Location> lastLocations = new HashMap<>();
+    private final Set<Player> afkPlayers = new HashSet<>();
+    private final HashMap<Player, Location> lastLocations = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -41,13 +41,15 @@ public class OpenAFK extends JavaPlugin {
         this.data = new ConfigWrapper(this, "data.yml");
         this.playerData = new DataHandler(this);
 
-        this.actionOrchestrator = new ActionOrchestrator(this);
-        actionOrchestrator.registerAction(new Message());
-        actionOrchestrator.registerAction(new Broadcast());
-        actionOrchestrator.registerAction(new Title());
-        actionOrchestrator.registerAction(new AfkArea());
+        this.actionRegistry = new ActionRegistry(this);
+        actionRegistry.registerAction(new MessageAction());
+        actionRegistry.registerAction(new BroadcastAction());
+        actionRegistry.registerAction(new TitleAction());
+        actionRegistry.registerAction(new AfkAreaAction());
 
-        PlaceholderAPI.registerExpansion(new PAPIHook(this));
+        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new PAPIHook(this).register();
+        }
 
         PluginManager manager = getServer().getPluginManager();
 
@@ -63,29 +65,39 @@ public class OpenAFK extends JavaPlugin {
 
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
 
-        new CheckTask(this).runTaskTimer(this, 0L, this.getConfig().getLong("checkInterval"));
+        new CheckTask(this).runTaskTimer(this, 0L, this.getConfig().getLong("checkInterval", 20L));
     }
 
     public static String parse(final Player player, final String s) {
-        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(player, s);
         }
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
-    static OpenAFK getPlugin() {
+    public static OpenAFK getInstance() {
         return instance;
     }
 
-
-    public FileConfiguration getConfig() {
-        return config.getRaw();
-    }
+    public FileConfiguration getConfig() { return config.getRaw(); }
     public ConfigWrapper getData() { return data; }
 
     public DataHandler getPlayerData() {
         return playerData;
     }
 
-    public ActionOrchestrator getActionOrchestrator() { return actionOrchestrator; }
+    public ActionRegistry getActionRegistry() { return actionRegistry; }
+
+    public void addAfkPlayer(Player player) {
+        afkPlayers.add(player);
+    }
+    public void removeAfkPlayer(Player player) { afkPlayers.remove(player); }
+    public boolean isAfkPlayer(Player player) { return afkPlayers.contains(player); }
+
+    public void setLastLocation(Player player, Location newLocation) {
+        this.lastLocations.put(player, newLocation);
+    }
+    public Location getLastLocation(Player player) {
+        return lastLocations.get(player);
+    }
 }

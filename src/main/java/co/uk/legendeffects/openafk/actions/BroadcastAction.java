@@ -30,9 +30,9 @@ public class Broadcast implements ActionExecutor {
 
     private void announce(String message, boolean needPermission) {
         if(needPermission) {
-            Bukkit.getServer().broadcast(message, "openafk.announce");
+            Bukkit.broadcast(message, "openafk.announce");
         } else {
-            Bukkit.getServer().broadcastMessage(message);
+            Bukkit.broadcastMessage(message);
         }
     }
 }

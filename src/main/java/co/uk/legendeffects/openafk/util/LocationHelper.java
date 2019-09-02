@@ -6,12 +6,12 @@ import org.bukkit.World;
 
 import java.util.UUID;
 
-public class LocationHelper {
-    public String serialize(Location l) {
+public final class LocationHelper {
+    public static String serialize(Location l) {
         return l.getWorld().getUID().toString()+","+l.getBlockX()+","+l.getBlockY()+","+l.getBlockZ()+","+l.getPitch()+","+l.getYaw();
     }
 
-    public Location deserialize(String l) {
+    public static Location deserialize(String l) {
         final String[] parts = l.split(",");
 
         final World w = Bukkit.getServer().getWorld(UUID.fromString(parts[0]));
@@ -24,4 +24,6 @@ public class LocationHelper {
 
         return new Location(w, x, y, z, yaw, pitch);
     }
+
+    private LocationHelper() {}
 }
