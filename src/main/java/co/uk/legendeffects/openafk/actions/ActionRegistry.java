@@ -7,11 +7,11 @@ import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ActionOrchestrator {
+public class ActionRegistry {
     private Set<ActionExecutor> actionSet = new HashSet<>();
     private OpenAFK plugin;
 
-    public ActionOrchestrator(OpenAFK plugin) {
+    public ActionRegistry(OpenAFK plugin) {
         this.plugin = plugin;
     }
 
