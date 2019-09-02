@@ -1,6 +1,7 @@
 package co.uk.legendeffects.openafk;
 
 import co.uk.legendeffects.openafk.actions.*;
+import co.uk.legendeffects.openafk.commands.AFKComand;
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
 import co.uk.legendeffects.openafk.handlers.PlayerConnect;
 import co.uk.legendeffects.openafk.handlers.PlayerDisconnect;
@@ -64,6 +65,9 @@ public class OpenAFK extends JavaPlugin {
         });
 
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
+        if(this.getConfig().getBoolean("enableAfkCommand")) {
+            getCommand("afk").setExecutor(new AFKComand(this));
+        }
 
         new CheckTask(this).runTaskTimer(this, 0L, this.getConfig().getLong("checkInterval", 20L));
     }

@@ -1,7 +1,7 @@
 name: OpenAFK
 version: ${project.version}
 main: co.uk.legendeffects.openafk.OpenAFK
-api-version: 1.13
+api-version: 1.14
 authors: [LegendEffects]
 description: The Open Source AFK Plugin
 website: legendeffects.co.uk
@@ -12,3 +12,7 @@ commands:
   openafk:
     description: Main OpenAFK command
     usage: /openafk
+
+  afk:
+    description: Manual AFK toggle
+    usage: /afk

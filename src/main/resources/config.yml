@@ -1,6 +1,7 @@
 checkInterval: 60  # In ticks (20 ticks = 1 second)
 movementDistance: 2 # Amount of blocks a player needs to move to be counted as not afk
 checksBeforeAfk: 100 # Amount of checks a person needs to not have moved enough to be AFK
+enableAfkCommand: true
 
 messages:
   prefix: '&9OpenAFK> &7'
