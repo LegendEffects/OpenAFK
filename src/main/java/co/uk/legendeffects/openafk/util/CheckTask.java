@@ -65,7 +65,8 @@ public final class CheckTask extends BukkitRunnable {
     public void run() {
         this.plugin.getServer().getOnlinePlayers().forEach(player -> {
             // Cancel for conditions
-            if(player.hasPermission("openafk.exempt")) return;
+            if(plugin.isExempt(player)) return;
+            if(player.hasPermission("openafk.exempt") && !player.isOp()) return;
 
             FileConfiguration c = plugin.getConfig();
             if(c.getBoolean("detection.operatorsExempt") && player.isOp()) return;

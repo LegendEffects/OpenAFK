@@ -16,6 +16,14 @@ detection:
     creative: false # This will disable players from going afk if they are in this gamemode
     spectator: false
 
+  fishing:
+    enabled: true
+    violationsNeeded: 5
+
+    enableSetPitch: true
+    setPitch: 100
+    violationMessage: "%openafk_prefix%AFK Fishing isn't allowed."
+
   operatorsExempt: true # Players who have the permission openafk.exempt will also be exempt
 
 actions:

@@ -3,6 +3,7 @@ package co.uk.legendeffects.openafk;
 import co.uk.legendeffects.openafk.actions.*;
 import co.uk.legendeffects.openafk.commands.AFKComand;
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
+import co.uk.legendeffects.openafk.detection.FishingDetection;
 import co.uk.legendeffects.openafk.handlers.PlayerConnect;
 import co.uk.legendeffects.openafk.handlers.PlayerDisconnect;
 import co.uk.legendeffects.openafk.util.CheckTask;
@@ -32,6 +33,7 @@ public class OpenAFK extends JavaPlugin {
     private ActionRegistry actionRegistry;
 
     private final Set<Player> afkPlayers = new HashSet<>();
+    private final Set<Player> exemptPlayers = new HashSet<>();
     private final HashMap<Player, Location> lastLocations = new HashMap<>();
 
     @Override
@@ -56,6 +58,10 @@ public class OpenAFK extends JavaPlugin {
 
         manager.registerEvents(new PlayerConnect(this), this);
         manager.registerEvents(new PlayerDisconnect(this), this);
+
+        if(config.getRaw().getBoolean("detection.fishing.enabled")) {
+            manager.registerEvents(new FishingDetection(this), this);
+        }
 
         getServer().getOnlinePlayers().forEach(player -> {
             if(playerData.playerHasData(player)) {
@@ -95,6 +101,10 @@ public class OpenAFK extends JavaPlugin {
     public void addAfkPlayer(Player player) { afkPlayers.add(player); }
     public void removeAfkPlayer(Player player) { afkPlayers.remove(player); }
     public boolean isAfkPlayer(Player player) { return afkPlayers.contains(player); }
+
+    public void addExemptPlayer(Player player) { exemptPlayers.add(player); }
+    public void removeExemptPlayer(Player player) { exemptPlayers.remove(player); }
+    public boolean isExempt(Player player) { return exemptPlayers.contains(player); }
 
     public void setLastLocation(Player player, Location newLocation) {
         this.lastLocations.put(player, newLocation);
