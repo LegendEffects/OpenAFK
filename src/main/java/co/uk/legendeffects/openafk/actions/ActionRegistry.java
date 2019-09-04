@@ -17,18 +17,20 @@ public class ActionRegistry {
 
     public void executeAfk(PlayerAfkEvent event) {
         actionSet.forEach(action -> {
-            action.onAfk(event, this.plugin);
+            if(action.isEnabled(this.plugin)) {
+                action.onAfk(event, this.plugin);
+            }
         });
     }
     public void executeReturn(PlayerReturnEvent event) {
         actionSet.forEach(action -> {
-            action.onReturn(event, this.plugin);
+            if(action.isEnabled(this.plugin)) {
+                action.onReturn(event, this.plugin);
+            }
         });
     }
 
     public void registerAction(ActionExecutor action) {
-        if(action.isEnabled(this.plugin)) {
-            actionSet.add(action);
-        }
+        actionSet.add(action);
     }
 }
