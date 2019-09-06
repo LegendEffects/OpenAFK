@@ -49,6 +49,7 @@ public class OpenAFK extends JavaPlugin {
         actionRegistry.registerAction(new BroadcastAction());
         actionRegistry.registerAction(new TitleAction());
         actionRegistry.registerAction(new AfkAreaAction());
+        actionRegistry.registerAction(new ActionBarAction());
 
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PAPIHook(this).register();
@@ -82,7 +83,9 @@ public class OpenAFK extends JavaPlugin {
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(player, s);
         }
-        return ChatColor.translateAlternateColorCodes('&', s);
+        FileConfiguration config = getInstance().getConfig();
+
+        return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", config.getString("messages.prefix")).replaceAll("%player_name%", player.getName()));
     }
 
     public static OpenAFK getInstance() {

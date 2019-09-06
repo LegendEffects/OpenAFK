@@ -60,3 +60,7 @@ actions:
     message: '%openafk_prefix%See you soon %player_name%!'
     returnMessage: '%openafk_prefix%Welcome back %player_name%!'
 
+  actionbar:
+    enabled: true
+    message: "&9&lSee you soon!"
+    returnMessage: "&9Welcome back."

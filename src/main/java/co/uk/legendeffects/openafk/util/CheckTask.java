@@ -24,6 +24,7 @@ public final class CheckTask extends BukkitRunnable {
     private boolean movedEnough(Player player) {
         Location lastLocation = plugin.getLastLocation(player);
         if(lastLocation == null) {
+            plugin.setLastLocation(player, player.getLocation());
             return false;
         }
 
