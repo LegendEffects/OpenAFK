@@ -1,9 +1,7 @@
 package co.uk.legendeffects.openafk.commands;
 
 import co.uk.legendeffects.openafk.OpenAFK;
-import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
-import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
-import org.bukkit.Bukkit;
+import co.uk.legendeffects.openafk.script.ActionType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,25 +22,11 @@ public class AFKComand implements CommandExecutor {
         Player player = (Player) sender;
 
         if(plugin.isAfkPlayer(player)) {
-            PlayerReturnEvent event = new PlayerReturnEvent(player);
-            Bukkit.getPluginManager().callEvent(event);
-
-            if(!event.isCancelled()) {
-                plugin.removeAfkPlayer(player);
-                plugin.getActionRegistry().executeReturn(event);
-            }
+            plugin.makePlayerReturn(player, ActionType.RETURN_BY_COMMAND, "onReturnCMD");
             return true;
         }
 
-        PlayerAfkEvent event = new PlayerAfkEvent(player);
-        Bukkit.getPluginManager().callEvent(event);
-
-        if(!event.isCancelled()) {
-            plugin.addAfkPlayer(player);
-
-            plugin.getActionRegistry().executeAfk(event);
-        }
-
+        plugin.makePlayerAfk(player, ActionType.AFK_BY_COMMAND, "onAfkCMD");
         return true;
     }
 }

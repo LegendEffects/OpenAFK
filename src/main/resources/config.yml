@@ -20,47 +20,65 @@ detection:
     enabled: true
     violationsNeeded: 5
 
-    enableSetPitch: true
-    setPitch: 100
-    violationMessage: "%openafk_prefix%AFK Fishing isn't allowed."
+    script:
+      - "message|%openafk_prefix%AFK Fishing isn't allowed."
+      - "setPlayerPitch|100"
 
   operatorsExempt: true # Players who have the permission openafk.exempt will also be exempt
 
-actions:
-  broadcast:
-    enabled: true
-    needPermission: false # if this is enabled then only users with the permission openafk.announce will be able to see the broadcast
+scripts:
+  onAfk:
+    - "afkarea"
+    - "message|&cNow AFK"
+    - "title|&c&lAFK|&7See you soon!|10|10|999999999"
+  onReturn:
+    - "afkarea"
+    - "message|&cNo longer AFK"
+    - "title|&c&lAFK|&7See you soon!|10|10|0"
+    - "title|&a&lWelcome Back!||10|10|20"
 
-    onAfk: true
-    message: '%openafk_prefix%%player_name% is AFK.'
+  onAfkCMD:
+    - "afkarea"
+    - "message|&bAFK by Command"
+  onReturnCMD:
+    - "afkarea"
+    - "message|&bReturn by Command"
 
-    onReturn: true
-    returnMessage: '%openafk_prefix%%player_name% is no longer AFK.'
-
-  afkArea: # Please set the afk zone with /openafk setafkarea
-    enabled: true
-
-  title:
-    enabled: true
-    message:
-      title: '&c&lAFK'
-      subtitle: '&7See you soon!'
-      fadeIn: 10
-      fadeOut: 10
-
-    returnMessage:
-      title: '&a&lWelcome Back!'
-      subtitle: ''
-      fadeIn: 10
-      fadeOut: 10
-      length: 40
-
-  message:
-    enabled: true
-    message: '%openafk_prefix%See you soon %player_name%!'
-    returnMessage: '%openafk_prefix%Welcome back %player_name%!'
-
-  actionbar:
-    enabled: true
-    message: "&9&lSee you soon!"
-    returnMessage: "&9Welcome back."
+#actions:
+#  broadcast:
+#    enabled: true
+#    needPermission: false # if this is enabled then only users with the permission openafk.announce will be able to see the broadcast
+#
+#    onAfk: true
+#    message: '%openafk_prefix%%player_name% is AFK.'
+#
+#    onReturn: true
+#    returnMessage: '%openafk_prefix%%player_name% is no longer AFK.'
+#
+#  afkArea: # Please set the afk zone with /openafk setafkarea
+#    enabled: true
+#
+#  title:
+#    enabled: true
+#    message:
+#      title: '&c&lAFK'
+#      subtitle: '&7See you soon!'
+#      fadeIn: 10
+#      fadeOut: 10
+#
+#    returnMessage:
+#      title: '&a&lWelcome Back!'
+#      subtitle: ''
+#      fadeIn: 10
+#      fadeOut: 10
+#      length: 40
+#
+#  message:
+#    enabled: true
+#    message: '%openafk_prefix%See you soon %player_name%!'
+#    returnMessage: '%openafk_prefix%Welcome back %player_name%!'
+#
+#  actionbar:
+#    enabled: true
+#    message: "&9&lSee you soon!"
+#    returnMessage: "&9Welcome back."
