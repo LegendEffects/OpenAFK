@@ -9,6 +9,12 @@ messages:
   invalidUsage: '%openafk_prefix%Invalid Usage.'
   afkAreaSet: '%openafk_prefix%}AFK Area set successfully.'
 
+  isAfk:
+    unknown: "%openafk_prefix%Unknown Username or UUID. (Players must be online)."
+    notEnoughArgs: "%openafk_prefix%Not enough arguments provided. Usage /isafk <username/uuid>"
+    afk: "%openafk_prefix%%player_name% is currently AFK."
+    notAfk: "%openafk_prefix%%player_name% is currently active."
+
 detection:
   gamemodes:
     survival: true
@@ -43,42 +49,3 @@ scripts:
   onReturnCMD:
     - "afkarea"
     - "message|&bReturn by Command"
-
-#actions:
-#  broadcast:
-#    enabled: true
-#    needPermission: false # if this is enabled then only users with the permission openafk.announce will be able to see the broadcast
-#
-#    onAfk: true
-#    message: '%openafk_prefix%%player_name% is AFK.'
-#
-#    onReturn: true
-#    returnMessage: '%openafk_prefix%%player_name% is no longer AFK.'
-#
-#  afkArea: # Please set the afk zone with /openafk setafkarea
-#    enabled: true
-#
-#  title:
-#    enabled: true
-#    message:
-#      title: '&c&lAFK'
-#      subtitle: '&7See you soon!'
-#      fadeIn: 10
-#      fadeOut: 10
-#
-#    returnMessage:
-#      title: '&a&lWelcome Back!'
-#      subtitle: ''
-#      fadeIn: 10
-#      fadeOut: 10
-#      length: 40
-#
-#  message:
-#    enabled: true
-#    message: '%openafk_prefix%See you soon %player_name%!'
-#    returnMessage: '%openafk_prefix%Welcome back %player_name%!'
-#
-#  actionbar:
-#    enabled: true
-#    message: "&9&lSee you soon!"
-#    returnMessage: "&9Welcome back."

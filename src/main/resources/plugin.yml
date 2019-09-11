@@ -16,3 +16,7 @@ commands:
   afk:
     description: Manual AFK toggle
     usage: /afk
+
+  isafk:
+    description: Checks if a player is AFK or not
+    usage: /afk <username/uuid>

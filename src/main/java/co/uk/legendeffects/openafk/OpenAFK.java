@@ -1,6 +1,7 @@
 package co.uk.legendeffects.openafk;
 
 import co.uk.legendeffects.openafk.commands.AFKComand;
+import co.uk.legendeffects.openafk.commands.IsAFKCommand;
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
 import co.uk.legendeffects.openafk.detection.FishingDetection;
 import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
@@ -72,6 +73,7 @@ public class OpenAFK extends JavaPlugin {
         }
 
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
+        getCommand("isafk").setExecutor(new IsAFKCommand(this));
         if(this.getConfig().getBoolean("enableAfkCommand")) {
             getCommand("afk").setExecutor(new AFKComand(this));
         }
@@ -119,6 +121,10 @@ public class OpenAFK extends JavaPlugin {
         FileConfiguration config = getInstance().getConfig();
 
         return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", config.getString("messages.prefix")).replaceAll("%player_name%", player.getName()));
+    }
+    public static String parse(final String s) {
+        FileConfiguration config = getInstance().getConfig();
+        return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", config.getString("messages.prefix")));
     }
 
     public static OpenAFK getInstance() { return instance; }

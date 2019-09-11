@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 public class OpenAFKCommand implements CommandExecutor {
 
     private final OpenAFK plugin;
-    public OpenAFKCommand(OpenAFK core) {
-        this.plugin = core;
+    public OpenAFKCommand(OpenAFK plugin) {
+        this.plugin = plugin;
     }
 
-    public void showHelpMenu(Player player) {
+    private void showHelpMenu(Player player) {
         String genericCommand = ChatColor.RED + "/openafk ";
 
         player.sendMessage(ChatColor.GRAY + "---- " + ChatColor.BLUE + "OpenAFK Help" + ChatColor.GRAY + " ----");
