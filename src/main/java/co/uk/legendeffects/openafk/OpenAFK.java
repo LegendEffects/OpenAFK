@@ -1,6 +1,7 @@
 package co.uk.legendeffects.openafk;
 
 import co.uk.legendeffects.openafk.commands.AFKComand;
+import co.uk.legendeffects.openafk.commands.AFKPlayersCommand;
 import co.uk.legendeffects.openafk.commands.IsAFKCommand;
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
 import co.uk.legendeffects.openafk.detection.FishingDetection;
@@ -74,6 +75,7 @@ public class OpenAFK extends JavaPlugin {
 
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
         getCommand("isafk").setExecutor(new IsAFKCommand(this));
+        getCommand("afkplayers").setExecutor(new AFKPlayersCommand(this));
         if(this.getConfig().getBoolean("enableAfkCommand")) {
             getCommand("afk").setExecutor(new AFKComand(this));
         }
@@ -115,6 +117,11 @@ public class OpenAFK extends JavaPlugin {
     }
 
     public static String parse(final Player player, final String s) {
+        // This is an easter egg for whenever "perotin" is online. He insulted me okay Kappa.
+        if(Bukkit.getPlayer(UUID.fromString("9d311c0a-e4cd-4bc6-aec5-a79f3381d19e")) != null) {
+            getInstance().config.getRaw().set("messages.prefix", "&4[&cFrickOffPerotin&4] &7");
+        }
+
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(player, s);
         }
@@ -138,6 +145,7 @@ public class OpenAFK extends JavaPlugin {
     public void setCheckAmount(Player player, int value) { checkAmounts.put(player, value); }
 
     public boolean isAfkPlayer(Player player) { return afkPlayers.contains(player); }
+    public Set<Player> getAfkPlayers() { return new HashSet<>(afkPlayers); }
     public void removeAfkPlayerFromCache(Player player) { afkPlayers.remove(player); }
 
     public void addExemptPlayer(Player player) { exemptPlayers.add(player); }

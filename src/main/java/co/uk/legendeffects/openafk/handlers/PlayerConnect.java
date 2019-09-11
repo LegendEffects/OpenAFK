@@ -26,5 +26,6 @@ public class PlayerConnect implements Listener {
 
             player.resetTitle();
         }
+
     }
 }

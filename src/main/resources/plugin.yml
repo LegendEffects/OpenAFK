@@ -20,3 +20,7 @@ commands:
   isafk:
     description: Checks if a player is AFK or not
     usage: /afk <username/uuid>
+
+  afkplayers:
+    description: Gives a list of currently AFK players
+    usage: /afk [list]

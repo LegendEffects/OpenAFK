@@ -4,7 +4,7 @@ checksBeforeAfk: 100 # Amount of checks a person needs to not have moved enough 
 enableAfkCommand: true
 
 messages:
-  prefix: '&9OpenAFK> &7'
+  prefix: '&aOpenAFK: &7'
   insufficientPermissions: '%openafk_prefix%Insufficient Permissions.'
   invalidUsage: '%openafk_prefix%Invalid Usage.'
   afkAreaSet: '%openafk_prefix%}AFK Area set successfully.'
@@ -14,6 +14,10 @@ messages:
     notEnoughArgs: "%openafk_prefix%Not enough arguments provided. Usage /isafk <username/uuid>"
     afk: "%openafk_prefix%%player_name% is currently AFK."
     notAfk: "%openafk_prefix%%player_name% is currently active."
+
+  afkList:
+    listPrefix: "%openafk_prefix%The following players are currently AFK: "
+    inventoryTitle: "&7Currently AFK Players."
 
 detection:
   gamemodes:

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public class IsAFKCommand implements CommandExecutor {
-    private OpenAFK plugin;
+    private final OpenAFK plugin;
 
     public IsAFKCommand(OpenAFK plugin) {
         this.plugin = plugin;
