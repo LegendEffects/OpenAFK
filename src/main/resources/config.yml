@@ -1,0 +1,55 @@
+checkInterval: 60  # In ticks (20 ticks = 1 second)
+movementDistance: 2 # Amount of blocks a player needs to move to be counted as not afk
+checksBeforeAfk: 100 # Amount of checks a person needs to not have moved enough to be AFK
+enableAfkCommand: true
+
+messages:
+  prefix: '&aOpenAFK: &7'
+  insufficientPermissions: '%openafk_prefix%Insufficient Permissions.'
+  invalidUsage: '%openafk_prefix%Invalid Usage.'
+  afkAreaSet: '%openafk_prefix%}AFK Area set successfully.'
+
+  isAfk:
+    unknown: "%openafk_prefix%Unknown Username or UUID. (Players must be online)."
+    notEnoughArgs: "%openafk_prefix%Not enough arguments provided. Usage /isafk <username/uuid>"
+    afk: "%openafk_prefix%%player_name% is currently AFK."
+    notAfk: "%openafk_prefix%%player_name% is currently active."
+
+  afkList:
+    listPrefix: "%openafk_prefix%The following players are currently AFK: "
+    inventoryTitle: "&7Currently AFK Players."
+
+detection:
+  gamemodes:
+    survival: true
+    adventure: true
+    creative: false # This will disable players from going afk if they are in this gamemode
+    spectator: false
+
+  fishing:
+    enabled: true
+    violationsNeeded: 5
+
+    script:
+      - "message|%openafk_prefix%AFK Fishing isn't allowed."
+      - "setPlayerPitch|100"
+
+  operatorsExempt: true # Players who have the permission openafk.exempt will also be exempt
+
+scripts:
+  onAfk:
+    - "afkarea"
+    - "message|&cNow AFK"
+    - "title|&c&lAFK|&7See you soon!|10|10|999999999"
+  onReturn:
+    - "afkarea"
+    - "message|&cNo longer AFK"
+    - "title|&c&lAFK|&7See you soon!|10|10|0"
+    - "title|&a&lWelcome Back!||10|10|20"
+
+  onAfkCMD:
+    - "afkarea"
+    - "message|&bAFK by Command"
+  onReturnCMD:
+    - "afkarea"
+    - "message|&bReturn by Command"

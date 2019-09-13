@@ -1,0 +1,26 @@
+name: OpenAFK
+version: ${project.version}
+main: co.uk.legendeffects.openafk.OpenAFK
+api-version: 1.14
+authors: [LegendEffects]
+description: The Open Source AFK Plugin
+website: legendeffects.co.uk
+
+softdepend: [PlaceholderAPI]
+
+commands:
+  openafk:
+    description: Main OpenAFK command
+    usage: /openafk
+
+  afk:
+    description: Manual AFK toggle
+    usage: /afk
+
+  isafk:
+    description: Checks if a player is AFK or not
+    usage: /afk <username/uuid>
+
+  afkplayers:
+    description: Gives a list of currently AFK players
+    usage: /afk [list]
