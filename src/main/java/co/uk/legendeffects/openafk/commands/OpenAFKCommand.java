@@ -8,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.StringJoiner;
+
 public class OpenAFKCommand implements CommandExecutor {
 
     private final OpenAFK plugin;
@@ -20,6 +22,7 @@ public class OpenAFKCommand implements CommandExecutor {
 
         player.sendMessage(ChatColor.GRAY + "---- " + ChatColor.BLUE + "OpenAFK Help" + ChatColor.GRAY + " ----");
         player.sendMessage(genericCommand + "set <afkArea>" + ChatColor.GRAY + " - Sets the AFK area");
+        player.sendMessage(genericCommand + "actionlist" + ChatColor.GRAY + " - Shows the registered available actions.");
         player.sendMessage(genericCommand + "help" + ChatColor.GRAY + " - Shows this help menu");
     }
 
@@ -28,7 +31,6 @@ public class OpenAFKCommand implements CommandExecutor {
         if(!(sender instanceof Player)) {
             return true;
         }
-
         Player player = (Player) sender;
 
         if(!sender.hasPermission("openafk.admin")) {
@@ -36,13 +38,14 @@ public class OpenAFKCommand implements CommandExecutor {
             return true;
         }
 
+
         if(args.length == 0) {
             showHelpMenu(player);
             return true;
         }
 
         if(args[0].equalsIgnoreCase("set")) {
-            if(args[1].equalsIgnoreCase("afkarea")) {
+            if (args[1].equalsIgnoreCase("afkarea")) {
                 plugin.getData().getRaw().set("afkLocation", LocationHelper.serialize(player.getLocation()));
                 plugin.getData().save();
                 player.sendMessage(OpenAFK.parse(player, plugin.getConfig().getString("messages.afkAreaSet")));
@@ -50,6 +53,13 @@ public class OpenAFKCommand implements CommandExecutor {
             } else {
                 player.sendMessage(OpenAFK.parse(player, plugin.getConfig().getString("messages.invalidUsage")));
             }
+        } else if(args[0].equalsIgnoreCase("actionlist")){
+            StringJoiner joiner = new StringJoiner(", ");
+            plugin.getActionParser().getActions().forEach((string, action) -> {
+                joiner.add(string);
+            });
+            player.sendMessage("Available Actions: "+joiner.toString());
+
         } else if(args[0].equalsIgnoreCase("help")) {
             showHelpMenu(player);
         }

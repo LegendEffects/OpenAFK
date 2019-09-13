@@ -39,4 +39,6 @@ public class ActionParser {
     public void registerScript(String name, List<String> script) {
         scripts.put(name, script);
     }
+
+    public HashMap<String, Action> getActions() { return actions; }
 }

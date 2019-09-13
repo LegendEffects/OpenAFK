@@ -1,7 +1,7 @@
 package co.uk.legendeffects.openafk.detection;
 
 import co.uk.legendeffects.openafk.OpenAFK;
-import org.bukkit.Location;
+import co.uk.legendeffects.openafk.script.ActionType;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -55,13 +55,7 @@ public class FishingDetection implements Listener {
         FileConfiguration config = plugin.getConfig();
         if(violationLevel.get(player) == config.getInt("detection.fishing.violationsNeeded")) {
 
-            // Force look down
-            if(config.getBoolean("detection.fishing.enableSetPitch")) {
-                Location newLocation = player.getLocation();
-                newLocation.setPitch((float) config.getDouble("detection.fishing.setPitch", 100.00));
-                player.teleport(newLocation);
-            }
-            player.sendMessage(OpenAFK.parse(player, config.getString("detection.fishing.violationMessage")));
+            plugin.getActionParser().parse(player, ActionType.DETECTION_FISHING, "onFishingAFK");
 
             violationLevel.remove(player);
         }

@@ -18,14 +18,14 @@ public class AFKPlayersCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         //if(!(sender instanceof Player) || (args.length == 1 && args[0].equals("list"))) { Made only function until inventory is added
-            StringJoiner list = new StringJoiner("&7,");
+            StringJoiner list = new StringJoiner("&7, ");
 
             plugin.getAfkPlayers().forEach(player -> { list.add("&a"+player.getName()); });
             sender.sendMessage(OpenAFK.parse(plugin.getConfig().getString("messages.afkList.listPrefix") + list.toString()));
+            return true;
         //}
 
         // TODO: Inventory of heads for AFK players when the sender is a player and didn't request in list form.
 
-        return true;
     }
 }
