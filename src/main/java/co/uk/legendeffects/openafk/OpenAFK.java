@@ -50,6 +50,7 @@ public class OpenAFK extends JavaPlugin {
         this.playerData = new DataHandler(this);
 
         this.actionParser = new ActionParser();
+        actionParser.registerAction(new InvisibilityAction(this));
         actionParser.registerAction(new ActionBarAction(this));
         actionParser.registerAction(new AfkAreaAction(this));
         actionParser.registerAction(new SetPlayerPitchAction());
