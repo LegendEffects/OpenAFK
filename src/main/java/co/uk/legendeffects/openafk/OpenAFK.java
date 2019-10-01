@@ -50,20 +50,25 @@ public class OpenAFK extends JavaPlugin {
         this.playerData = new DataHandler(this);
 
         this.actionParser = new ActionParser();
-        actionParser.registerAction(new AfkAreaAction(this));
+        actionParser.registerAction(new InvisibilityAction(this));
         actionParser.registerAction(new ActionBarAction(this));
+        actionParser.registerAction(new AfkAreaAction(this));
+        actionParser.registerAction(new SetPlayerPitchAction());
         actionParser.registerAction(new BroadcastAction());
         actionParser.registerAction(new MessageAction());
+        actionParser.registerAction(new CommandAction());
         actionParser.registerAction(new TitleAction());
 
-        actionParser.registerScript("onAfk", getConfig().getStringList("scripts.onAfk"));
+        actionParser.registerScript("onFishingAFK", getConfig().getStringList("detection.fishing.script"));
+        actionParser.registerScript("onReturnCMD", getConfig().getStringList("scripts.onReturnCMD"));
         actionParser.registerScript("onReturn", getConfig().getStringList("scripts.onReturn"));
         actionParser.registerScript("onAfkCMD", getConfig().getStringList("scripts.onAfkCMD"));
-        actionParser.registerScript("onReturnCMD", getConfig().getStringList("scripts.onReturnCMD"));
+        actionParser.registerScript("onAfk", getConfig().getStringList("scripts.onAfk"));
+
 
         PluginManager manager = getServer().getPluginManager();
-        manager.registerEvents(new PlayerConnect(this), this);
         manager.registerEvents(new PlayerDisconnect(this), this);
+        manager.registerEvents(new PlayerConnect(this), this);
 
         if(config.getRaw().getBoolean("detection.fishing.enabled")) {
             manager.registerEvents(new FishingDetection(this), this);
@@ -73,9 +78,9 @@ public class OpenAFK extends JavaPlugin {
             new PAPIHook(this).register();
         }
 
+        getCommand("afkplayers").setExecutor(new AFKPlayersCommand(this));
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
         getCommand("isafk").setExecutor(new IsAFKCommand(this));
-        getCommand("afkplayers").setExecutor(new AFKPlayersCommand(this));
         if(this.getConfig().getBoolean("enableAfkCommand")) {
             getCommand("afk").setExecutor(new AFKComand(this));
         }

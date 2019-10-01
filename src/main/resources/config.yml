@@ -32,7 +32,7 @@ detection:
 
     script:
       - "message|%openafk_prefix%AFK Fishing isn't allowed."
-      - "setPlayerPitch|100"
+      - "setpitch|100"
 
   operatorsExempt: true # Players who have the permission openafk.exempt will also be exempt
 
