@@ -21,8 +21,10 @@ public class TitleAction extends AbstractAction {
         }
 
         int stayFor;
-        if(config.containsKey("stay")) stayFor = Integer.parseInt(config.get("stay"));
-        else stayFor = 999999999;
+        if(config.get("stay").equalsIgnoreCase("permanent"))
+            stayFor = 999999999;
+        else
+            stayFor = Integer.parseInt(config.get("stay"));
 
         int fadeIn = Integer.parseInt(config.get("fadeIn"));
         int fadeOut = Integer.parseInt(config.get("fadeOut"));
@@ -36,17 +38,12 @@ public class TitleAction extends AbstractAction {
             return true;
         }
 
-        if(actionConfig.containsKey("permanent") && actionConfig.containsKey("stay")) {
-            plugin.getLogger().warning("[TitleAction] Can only have Permanent or Stay parameters but both were found.");
+        if(!actionConfig.containsKey("stay")) {
+            plugin.getLogger().warning("[TitleAction] No stay parameter was defined.");
             return false;
         }
-        if(!actionConfig.containsKey("permanent") && !actionConfig.containsKey("stay")) {
-            plugin.getLogger().warning("[TitleAction] No permanent or stay parameter was defined.");
-            return false;
-        }
-
-        if(actionConfig.containsKey("stay") && !actionConfig.get("stay").matches("\\d+")) {
-            plugin.getLogger().warning("[TitleAction] Stay parameter wasn't a valid integer.");
+        if(!actionConfig.get("stay").matches("\\d+") && !actionConfig.get("stay").equalsIgnoreCase("permanent")) {
+            plugin.getLogger().warning("[TitleAction] Stay parameter wasn't a valid integer or permanent.");
             return false;
         }
 

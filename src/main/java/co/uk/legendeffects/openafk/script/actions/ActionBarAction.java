@@ -90,6 +90,6 @@ public class ActionBarAction extends AbstractAction {
     }
 
     private void sendActionBar(Player player, String message) {
-        System.out.println(this.recipients);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(OpenAFK.parse(player, message)));
     }
 }

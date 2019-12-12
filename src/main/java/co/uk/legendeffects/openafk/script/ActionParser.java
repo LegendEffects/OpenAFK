@@ -53,17 +53,7 @@ public class ActionParser {
             int lineNum = lineTracker.getAndIncrement();
 
             // Parse the object because umm... types.
-            unparsedLine.forEach((key, val) -> {
-                if(val instanceof String) {
-                    line.put((String)key, (String)val);
-                } else if(val instanceof Integer) {
-                    line.put((String)key, Integer.toString((Integer) val));
-                } else if(val instanceof Boolean) {
-                    line.put((String)key, Boolean.toString((Boolean)val));
-                } else {
-                    plugin.getLogger().warning("Unknown type: "+(((Object) val).getClass().getName()));
-                }
-            });
+            unparsedLine.forEach((key, val) -> { line.put(String.valueOf(key), String.valueOf(val)); });
 
             if(!line.containsKey("action")) {
                 plugin.getLogger().warning("No action value is provided in script "+name+", on line "+lineNum+", skipping.");

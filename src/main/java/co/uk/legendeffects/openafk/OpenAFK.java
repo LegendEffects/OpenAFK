@@ -56,6 +56,7 @@ public class OpenAFK extends JavaPlugin {
         actionParser.registerAction(new AfkAreaAction(this));
         actionParser.registerAction(new MessageAction());
         actionParser.registerAction(new TitleAction());
+        actionParser.registerAction(new LookAction());
 
         actionParser.registerScript("onAfk", this.config.getRaw().getMapList("scripts.onAfk"));
         actionParser.registerScript("onAfkCMD", this.config.getRaw().getMapList("scripts.onAfkCMD"));

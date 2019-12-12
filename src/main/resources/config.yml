@@ -34,22 +34,54 @@ detection:
       - "message|%openafk_prefix%AFK Fishing isn't allowed."
       - "setpitch|100"
 
-  operatorsExempt: true # Players who have the permission openafk.exempt will also be exempt
+  operatorsExempt: true # Players who have the permission openafk.exempt but aren't OP will still be exempt
 
 scripts:
   onAfk:
-    - "afkarea"
-    - "message|&cNow AFK"
-    - "title|&c&lAFK|&7See you soon!|10|10|999999999"
+    - action: "afkarea"
+
+    - action: "message"
+      content: "&cNow AFK"
+      repeat: 2
+
+    - action: "title"
+      title: "&c&lAFK"
+      subtitle: "&7See you soon!"
+      fadeIn: 10
+      fadeOut: 10
+      stay: "permanent"
+
+    - action: "actionbar"
+      content: "&c&lAFK."
+      to: "player"
+      permanent: true
+
   onReturn:
-    - "afkarea"
-    - "message|&cNo longer AFK"
-    - "title|&c&lAFK|&7See you soon!|10|10|0"
-    - "title|&a&lWelcome Back!||10|10|20"
+    - action: "afkarea"
+
+    - action: "message"
+      content: "&cNo longer AFK"
+
+    - action: "title"
+      title: "&a&lWelcome Back!"
+      fadeIn: 10
+      fadeOut: 10
+      stay: 20
+
+    - action: "actionbar"
+      reset: true
+
+    - action: "actionbar"
+      content: "&a&lWelcome Back."
 
   onAfkCMD:
-    - "afkarea"
-    - "message|&bAFK by Command"
+    - action: "afkarea"
+
+    - action: "message"
+      content: "&bAFK by command."
+
   onReturnCMD:
-    - "afkarea"
-    - "message|&bReturn by Command"
+    - action: "afkarea"
+
+    - action: "message"
+      content: "&bReturn by command."
