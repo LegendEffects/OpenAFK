@@ -7,11 +7,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class AFKComand implements CommandExecutor {
+public class AFKCommand implements CommandExecutor {
 
     private final OpenAFK plugin;
 
-    public AFKComand(OpenAFK plugin) { this.plugin = plugin; }
+    public AFKCommand(OpenAFK plugin) { this.plugin = plugin; }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
