@@ -7,7 +7,7 @@ messages:
   prefix: '&aOpenAFK: &7'
   insufficientPermissions: '%openafk_prefix%Insufficient Permissions.'
   invalidUsage: '%openafk_prefix%Invalid Usage.'
-  afkAreaSet: '%openafk_prefix%}AFK Area set successfully.'
+  afkAreaSet: '%openafk_prefix%AFK Area set successfully.'
 
   isAfk:
     unknown: "%openafk_prefix%Unknown Username or UUID. (Players must be online)."
