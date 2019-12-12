@@ -1,16 +1,18 @@
 package co.uk.legendeffects.openafk.script.actions;
 
 import co.uk.legendeffects.openafk.OpenAFK;
-import co.uk.legendeffects.openafk.script.Action;
+import co.uk.legendeffects.openafk.script.AbstractAction;
 import co.uk.legendeffects.openafk.script.ActionType;
 import co.uk.legendeffects.openafk.util.DataHandler;
 import co.uk.legendeffects.openafk.util.LocationHelper;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
-public class AfkAreaAction extends Action {
+import java.util.Map;
 
-    private final OpenAFK plugin;
+public class AfkAreaAction extends AbstractAction {
+    OpenAFK plugin;
 
     public AfkAreaAction(OpenAFK plugin) {
         super("afkarea");
@@ -18,7 +20,7 @@ public class AfkAreaAction extends Action {
     }
 
     @Override
-    public void execute(Player player, ActionType type, String[] args) {
+    public void execute(Player player, ActionType type, Map<String, String> config) {
         DataHandler data = plugin.getPlayerData();
         if(plugin.isAfkPlayer(player)) {
             data.getPlayer(player).set("location", LocationHelper.serialize(player.getLocation()));

@@ -1,35 +1,34 @@
 package co.uk.legendeffects.openafk.script.actions;
 
 import co.uk.legendeffects.openafk.OpenAFK;
-import co.uk.legendeffects.openafk.script.Action;
+import co.uk.legendeffects.openafk.script.AbstractAction;
 import co.uk.legendeffects.openafk.script.ActionType;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public class ActionBarAction extends Action {
-
+public class ActionBarAction extends AbstractAction {
     private BukkitTask updateQueue;
-    private OpenAFK plugin;
-    private final HashMap<Player, String> recipients = new HashMap<>();
+    private HashMap<Player, String> recipients = new HashMap<>();
+    private final Plugin plugin;
 
-    public ActionBarAction(OpenAFK plugin) {
+    public ActionBarAction(Plugin plugin) {
         super("actionbar");
         this.plugin = plugin;
     }
 
     @Override
-    public void execute(Player player, ActionType type, String[] args) {
-        if(args.length < 1 || args.length > 3) {
-            return;
-        }
+    public void execute(Player player, ActionType type, Map<String, String> config) {
 
-        if(updateQueue == null && args[0].equals("constant")) {
+        // Create a queue runnable if one has no yet been made and it's a permanent message.
+        if(updateQueue == null && config.containsKey("permanent")) {
             updateQueue = new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -38,35 +37,59 @@ public class ActionBarAction extends Action {
             }.runTaskTimer(plugin, 0L, 40L);
         }
 
-        if(args[0].equals("constant")) {
-            if(args.length == 3 && args[2].equals("all")) {
-                if(args[1].equals("")) {
-                    recipients.clear();
-                    return;
-                }
-
-                Bukkit.getOnlinePlayers().forEach(playerLoop -> { recipients.put(playerLoop, args[1]); });
-                return;
-            }
-
-            if(args[1].equals("REMOVE")) {
+        // Reset
+        if(config.containsKey("reset")) {
+            if(config.getOrDefault("to", "player").equalsIgnoreCase("player")) {
                 recipients.remove(player);
                 return;
             }
 
-            recipients.put(player, args[1]);
-        } else {
-            if(args.length == 2 && args[1].equals("all")) {
-                Bukkit.getOnlinePlayers().forEach(playerLoop -> { sendActionBar(playerLoop, args[0]); });
+            recipients.clear();
+            return;
+        }
+
+        // Adding to the queue
+        if(config.getOrDefault("to", "player").equalsIgnoreCase("player")) {
+            if(config.containsKey("permanent")) {
+                recipients.put(player, config.get("content"));
                 return;
             }
 
-            sendActionBar(player, args[0]);
+            sendActionBar(player, config.get("content"));
+        } else {
+            if(config.containsKey("permanent")) {
+                Bukkit.getOnlinePlayers().forEach(playerLoop -> { recipients.put(playerLoop, config.get("content")); });
+                return;
+            }
+
+            Bukkit.getOnlinePlayers().forEach(playerLoop -> {
+                sendActionBar(player, config.get("content"));
+            });
         }
+
 
     }
 
+    @Override
+    public boolean verifySyntax(Map<String, String> actionConfig, Plugin plugin) {
+        if(actionConfig.containsKey("reset")) {
+            return true;
+        }
+
+        if(actionConfig.containsKey("to") && (!actionConfig.get("to").equalsIgnoreCase("player") && actionConfig.get("to").equalsIgnoreCase("all"))) {
+            plugin.getLogger().warning("[ActionBarAction] Invalid to parameter value, expected \"player\" or \"all\".");
+            return false;
+        }
+
+        if(!actionConfig.containsKey("content")) {
+            plugin.getLogger().warning("[ActionBarAction] No content parameter was provided.");
+            return false;
+        }
+
+        return true;
+    }
+
     private void sendActionBar(Player player, String message) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(OpenAFK.parse(player, message)));
+        System.out.println(this.recipients);
     }
 }

@@ -1,4 +1,4 @@
-package co.uk.legendeffects.openafk.script;
+package co.uk.legendeffects.openafk.oldScript;
 
 import org.bukkit.entity.Player;
 

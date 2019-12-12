@@ -1,6 +1,6 @@
 package co.uk.legendeffects.openafk;
 
-import co.uk.legendeffects.openafk.commands.AFKComand;
+import co.uk.legendeffects.openafk.commands.AFKCommand;
 import co.uk.legendeffects.openafk.commands.AFKPlayersCommand;
 import co.uk.legendeffects.openafk.commands.IsAFKCommand;
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
@@ -9,7 +9,8 @@ import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
 import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
 import co.uk.legendeffects.openafk.handlers.PlayerConnect;
 import co.uk.legendeffects.openafk.handlers.PlayerDisconnect;
-import co.uk.legendeffects.openafk.script.*;
+import co.uk.legendeffects.openafk.script.ActionParser;
+import co.uk.legendeffects.openafk.script.ActionType;
 import co.uk.legendeffects.openafk.script.actions.*;
 import co.uk.legendeffects.openafk.util.CheckTask;
 import co.uk.legendeffects.openafk.util.ConfigWrapper;
@@ -49,22 +50,17 @@ public class OpenAFK extends JavaPlugin {
         this.data = new ConfigWrapper(this, "data.yml");
         this.playerData = new DataHandler(this);
 
-        this.actionParser = new ActionParser();
-        actionParser.registerAction(new InvisibilityAction(this));
+        this.actionParser = new ActionParser(this);
+
         actionParser.registerAction(new ActionBarAction(this));
         actionParser.registerAction(new AfkAreaAction(this));
-        actionParser.registerAction(new SetPlayerPitchAction());
-        actionParser.registerAction(new BroadcastAction());
         actionParser.registerAction(new MessageAction());
-        actionParser.registerAction(new CommandAction());
         actionParser.registerAction(new TitleAction());
 
-        actionParser.registerScript("onFishingAFK", getConfig().getStringList("detection.fishing.script"));
-        actionParser.registerScript("onReturnCMD", getConfig().getStringList("scripts.onReturnCMD"));
-        actionParser.registerScript("onReturn", getConfig().getStringList("scripts.onReturn"));
-        actionParser.registerScript("onAfkCMD", getConfig().getStringList("scripts.onAfkCMD"));
-        actionParser.registerScript("onAfk", getConfig().getStringList("scripts.onAfk"));
-
+        actionParser.registerScript("onAfk", this.config.getRaw().getMapList("scripts.onAfk"));
+        actionParser.registerScript("onAfkCMD", this.config.getRaw().getMapList("scripts.onAfkCMD"));
+        actionParser.registerScript("onReturn", this.config.getRaw().getMapList("scripts.onReturn"));
+        actionParser.registerScript("onReturnCMD", this.config.getRaw().getMapList("scripts.onReturnCMD"));
 
         PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(new PlayerDisconnect(this), this);
@@ -82,7 +78,7 @@ public class OpenAFK extends JavaPlugin {
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
         getCommand("isafk").setExecutor(new IsAFKCommand(this));
         if(this.getConfig().getBoolean("enableAfkCommand")) {
-            getCommand("afk").setExecutor(new AFKComand(this));
+            getCommand("afk").setExecutor(new AFKCommand(this));
         }
 
         getServer().getOnlinePlayers().forEach(player -> {

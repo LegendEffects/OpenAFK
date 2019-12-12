@@ -1,7 +1,7 @@
-package co.uk.legendeffects.openafk.script.actions;
+package co.uk.legendeffects.openafk.oldScript.actions;
 
-import co.uk.legendeffects.openafk.script.Action;
-import co.uk.legendeffects.openafk.script.ActionType;
+import co.uk.legendeffects.openafk.oldScript.Action;
+import co.uk.legendeffects.openafk.oldScript.ActionType;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
