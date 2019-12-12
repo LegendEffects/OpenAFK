@@ -18,11 +18,12 @@ Example:
 Actions are OpenAFKs way to let you orchestrate what happens on events. (You can even register your own actions!)
 
 Current Actions:
-* Actionbar - Displays an actionbar message
-* AfkArea - Sends the player to a set location
-* Look - Changes the players yaw and pitch
-* Message - Sends the player or everyone a message
-* Title - Sends the player a title
+* (Actionbar)[#Actionbar] - Displays an actionbar message
+* (AfkArea)[#AfkArea] - Sends the player to a set location
+* (Broadcast)[#Broadcast] - Sends a broadcast
+* (Look)[#Look] - Changes the players yaw and pitch
+* (Message)[#Message] - Sends the player or everyone a message
+* (Title)[#Title] - Sends the player a title
 
 
 
