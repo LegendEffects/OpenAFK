@@ -1,5 +1,6 @@
 package co.uk.legendeffects.openafk.script.actions;
 
+import co.uk.legendeffects.openafk.OpenAFK;
 import co.uk.legendeffects.openafk.script.AbstractAction;
 import co.uk.legendeffects.openafk.script.ActionType;
 import org.bukkit.Bukkit;
@@ -19,9 +20,9 @@ public class BroadcastAction extends AbstractAction {
 
         for(int i = 0; i < loopTimes; i++) {
             if(config.containsKey("permission")) {
-                Bukkit.broadcast(config.get("content"), config.get("permission"));
+                Bukkit.broadcast(OpenAFK.parse(player, config.get("content")), config.get("permission"));
             } else {
-                Bukkit.broadcastMessage(config.get("content"));
+                Bukkit.broadcastMessage(OpenAFK.parse(player, config.get("content")));
             }
         }
     }
