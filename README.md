@@ -60,6 +60,14 @@ Changes where a players head is, using yaw and pitch.
   pitch: 5
 ```
 
+### Command
+Issues a command by a player or by console.
+```yaml
+- action: "message"
+  by: "player" #(Optional - defaults to player) accepts player or console
+  command: "/help" # Console commands do NOT use the /
+```
+
 ### Message
 **Supports Multiline**
 Messages the actioned player with given content once or multiple times.
@@ -85,6 +93,8 @@ Resetting
 - action: "title"
   reset: true
 ```
+
+TO DOCUMENT: NametagAction
 
 ## Scripts
 Scripts are lists of actions which are ran in order, these define what actions to do when certain events happen.
