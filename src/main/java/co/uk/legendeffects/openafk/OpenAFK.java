@@ -123,6 +123,8 @@ public class OpenAFK extends JavaPlugin {
 
     public static String parse(final Player player, final String s) {
         // This is an easter egg for whenever "perotin" is online. He insulted me okay Kappa.
+        FileConfiguration config = getInstance().getConfig();
+
         String prefix = config.getString("messages.prefix");
         if(Bukkit.getPlayer(UUID.fromString("9d311c0a-e4cd-4bc6-aec5-a79f3381d19e")) != null) {
             prefix = "&4[&cFrickOffPerotin&4] &7";
