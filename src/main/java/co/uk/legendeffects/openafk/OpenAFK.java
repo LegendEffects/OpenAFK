@@ -12,10 +12,7 @@ import co.uk.legendeffects.openafk.handlers.PlayerDisconnect;
 import co.uk.legendeffects.openafk.script.ActionParser;
 import co.uk.legendeffects.openafk.script.ActionType;
 import co.uk.legendeffects.openafk.script.actions.*;
-import co.uk.legendeffects.openafk.util.CheckTask;
-import co.uk.legendeffects.openafk.util.ConfigWrapper;
-import co.uk.legendeffects.openafk.util.DataHandler;
-import co.uk.legendeffects.openafk.util.PAPIHook;
+import co.uk.legendeffects.openafk.util.*;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,6 +31,7 @@ public class OpenAFK extends JavaPlugin {
     private ConfigWrapper config;
     private ConfigWrapper data;
     private DataHandler playerData;
+    private GroupConfig groups;
 
     private ActionParser actionParser;
 
@@ -49,6 +47,9 @@ public class OpenAFK extends JavaPlugin {
         this.config = new ConfigWrapper(this, "config.yml");
         this.data = new ConfigWrapper(this, "data.yml");
         this.playerData = new DataHandler(this);
+
+        this.groups = new GroupConfig(this);
+        this.groups.init();
 
         this.actionParser = new ActionParser(this);
 
@@ -133,7 +134,6 @@ public class OpenAFK extends JavaPlugin {
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(player, s);
         }
-        FileConfiguration config = getInstance().getConfig();
 
         return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", prefix).replaceAll("%player_name%", player.getName()));
     }
@@ -147,7 +147,9 @@ public class OpenAFK extends JavaPlugin {
     public FileConfiguration getConfig() { return config.getRaw(); }
     public ConfigWrapper getData() { return data; }
     public DataHandler getPlayerData() { return playerData; }
+    public GroupConfig getGroups() { return groups; }
     public ActionParser getActionParser() { return actionParser; }
+
 
     public Integer getCheckAmount(Player player) { return checkAmounts.get(player); }
     public void setCheckAmount(Player player, int value) { checkAmounts.put(player, value); }

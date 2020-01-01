@@ -19,6 +19,12 @@ messages:
     listPrefix: "%openafk_prefix%The following players are currently AFK: "
     inventoryTitle: "&7Currently AFK Players."
 
+# If the user has the permission openafk.groups.donator then they will inherit the settings from the donator rank.
+# Ranks at the top of the list have the highest priority
+groups:
+  donator:
+    checkAmount: 200
+
 detection:
   gamemodes:
     survival: true
