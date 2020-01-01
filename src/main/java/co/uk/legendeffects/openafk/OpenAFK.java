@@ -123,8 +123,9 @@ public class OpenAFK extends JavaPlugin {
 
     public static String parse(final Player player, final String s) {
         // This is an easter egg for whenever "perotin" is online. He insulted me okay Kappa.
+        String prefix = config.getString("messages.prefix");
         if(Bukkit.getPlayer(UUID.fromString("9d311c0a-e4cd-4bc6-aec5-a79f3381d19e")) != null) {
-            getInstance().config.getRaw().set("messages.prefix", "&4[&cFrickOffPerotin&4] &7");
+            prefix = "&4[&cFrickOffPerotin&4] &7";
         }
 
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -132,7 +133,7 @@ public class OpenAFK extends JavaPlugin {
         }
         FileConfiguration config = getInstance().getConfig();
 
-        return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", config.getString("messages.prefix")).replaceAll("%player_name%", player.getName()));
+        return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", prefix).replaceAll("%player_name%", player.getName()));
     }
     public static String parse(final String s) {
         FileConfiguration config = getInstance().getConfig();
