@@ -95,7 +95,7 @@ Resetting
 ```
 
 ### Invisibility
-Makes the actioned player visible or invisible to other players
+Makes the actioned player visible or invisible to other players.
 ```yaml
 - action: "invisibility"
   type: "show" #Valid values: "show", "hide"
@@ -107,6 +107,14 @@ Makes the actioned player visible or invisible to other players
 - action: "nametag"
   prefix: "&7[&c&lAFK&7] &9"
   suffix: "PlayersSuffix" #(Optional)
+```
+
+### Invincibility
+Makes the player invincible and sends a message to the attacker on hit.
+
+```yaml
+- action: "invincibility"
+  to: true # Also accepts false
 ```
 
 ## Scripts

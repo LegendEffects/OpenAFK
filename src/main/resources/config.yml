@@ -8,6 +8,7 @@ messages:
   insufficientPermissions: '%openafk_prefix%Insufficient Permissions.'
   invalidUsage: '%openafk_prefix%Invalid Usage.'
   afkAreaSet: '%openafk_prefix%AFK Area set successfully.'
+  playerIsInvincible: '%openafk_prefix%%player_name% is currently AFK and therefore invincible.'
 
   isAfk:
     unknown: "%openafk_prefix%Unknown Username or UUID. (Players must be online)."

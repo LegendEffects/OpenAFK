@@ -1,6 +1,8 @@
 package co.uk.legendeffects.openafk.script;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActionParser {
     private Map<String, AbstractAction> actions = new HashMap<>();
-    private Map<String, List<Map<String, String>>> scripts = new HashMap<String, List<Map<String, String>>>();
+    private Map<String, List<Map<String, String>>> scripts = new HashMap<>();
 
     private final Plugin plugin;
 
@@ -40,6 +42,10 @@ public class ActionParser {
 
     // Registering
     public void registerAction(AbstractAction action) {
+        if(action instanceof Listener) {
+            Bukkit.getServer().getPluginManager().registerEvents((Listener) action, this.plugin);
+        }
+
         this.actions.put(action.getId(), action);
     }
 
