@@ -4,6 +4,7 @@ import co.uk.legendeffects.openafk.OpenAFK;;
 import co.uk.legendeffects.openafk.script.ActionType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -54,7 +55,14 @@ public final class CheckTask extends BukkitRunnable {
                 return;
             }
 
-            if(currentAmount == this.plugin.getConfig().getInt("checksBeforeAfk")) {
+            int checksBeforeAfk = this.plugin.getConfig().getInt("checksBeforeAfk");
+
+            ConfigurationSection group = this.plugin.getGroups().getGroupForPlayer(player);
+            if(group != null) {
+                checksBeforeAfk = group.getInt("checkAmount", checksBeforeAfk);
+            }
+
+            if(currentAmount == checksBeforeAfk) {
                 plugin.makePlayerAfk(player, ActionType.AFK, "onAfk");
                 return;
             }

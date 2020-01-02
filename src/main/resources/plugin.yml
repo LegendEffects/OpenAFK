@@ -1,12 +1,12 @@
 name: OpenAFK
 version: ${project.version}
 main: co.uk.legendeffects.openafk.OpenAFK
-api-version: 1.14
+api-version: "1.13"
 authors: [LegendEffects]
 description: The Open Source AFK Plugin
 website: legendeffects.co.uk
 
-softdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI, NametagEdit]
 
 commands:
   openafk:

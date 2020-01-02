@@ -1,6 +1,6 @@
 package co.uk.legendeffects.openafk;
 
-import co.uk.legendeffects.openafk.commands.AFKComand;
+import co.uk.legendeffects.openafk.commands.AFKCommand;
 import co.uk.legendeffects.openafk.commands.AFKPlayersCommand;
 import co.uk.legendeffects.openafk.commands.IsAFKCommand;
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
@@ -9,12 +9,10 @@ import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
 import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
 import co.uk.legendeffects.openafk.handlers.PlayerConnect;
 import co.uk.legendeffects.openafk.handlers.PlayerDisconnect;
-import co.uk.legendeffects.openafk.script.*;
+import co.uk.legendeffects.openafk.script.ActionParser;
+import co.uk.legendeffects.openafk.script.ActionType;
 import co.uk.legendeffects.openafk.script.actions.*;
-import co.uk.legendeffects.openafk.util.CheckTask;
-import co.uk.legendeffects.openafk.util.ConfigWrapper;
-import co.uk.legendeffects.openafk.util.DataHandler;
-import co.uk.legendeffects.openafk.util.PAPIHook;
+import co.uk.legendeffects.openafk.util.*;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,6 +31,7 @@ public class OpenAFK extends JavaPlugin {
     private ConfigWrapper config;
     private ConfigWrapper data;
     private DataHandler playerData;
+    private GroupConfig groups;
 
     private ActionParser actionParser;
 
@@ -49,22 +48,26 @@ public class OpenAFK extends JavaPlugin {
         this.data = new ConfigWrapper(this, "data.yml");
         this.playerData = new DataHandler(this);
 
-        this.actionParser = new ActionParser();
+        this.groups = new GroupConfig(this);
+        this.groups.init();
+
+        this.actionParser = new ActionParser(this);
+
+        actionParser.registerAction(new InvincibilityAction(this));
         actionParser.registerAction(new InvisibilityAction(this));
         actionParser.registerAction(new ActionBarAction(this));
         actionParser.registerAction(new AfkAreaAction(this));
-        actionParser.registerAction(new SetPlayerPitchAction());
         actionParser.registerAction(new BroadcastAction());
-        actionParser.registerAction(new MessageAction());
+        actionParser.registerAction(new NametagAction());
         actionParser.registerAction(new CommandAction());
+        actionParser.registerAction(new MessageAction());
         actionParser.registerAction(new TitleAction());
+        actionParser.registerAction(new LookAction());
 
-        actionParser.registerScript("onFishingAFK", getConfig().getStringList("detection.fishing.script"));
-        actionParser.registerScript("onReturnCMD", getConfig().getStringList("scripts.onReturnCMD"));
-        actionParser.registerScript("onReturn", getConfig().getStringList("scripts.onReturn"));
-        actionParser.registerScript("onAfkCMD", getConfig().getStringList("scripts.onAfkCMD"));
-        actionParser.registerScript("onAfk", getConfig().getStringList("scripts.onAfk"));
-
+        actionParser.registerScript("onAfk", this.config.getRaw().getMapList("scripts.onAfk"));
+        actionParser.registerScript("onAfkCMD", this.config.getRaw().getMapList("scripts.onAfkCMD"));
+        actionParser.registerScript("onReturn", this.config.getRaw().getMapList("scripts.onReturn"));
+        actionParser.registerScript("onReturnCMD", this.config.getRaw().getMapList("scripts.onReturnCMD"));
 
         PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(new PlayerDisconnect(this), this);
@@ -82,7 +85,7 @@ public class OpenAFK extends JavaPlugin {
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
         getCommand("isafk").setExecutor(new IsAFKCommand(this));
         if(this.getConfig().getBoolean("enableAfkCommand")) {
-            getCommand("afk").setExecutor(new AFKComand(this));
+            getCommand("afk").setExecutor(new AFKCommand(this));
         }
 
         getServer().getOnlinePlayers().forEach(player -> {
@@ -123,16 +126,18 @@ public class OpenAFK extends JavaPlugin {
 
     public static String parse(final Player player, final String s) {
         // This is an easter egg for whenever "perotin" is online. He insulted me okay Kappa.
+        FileConfiguration config = getInstance().getConfig();
+
+        String prefix = config.getString("messages.prefix");
         if(Bukkit.getPlayer(UUID.fromString("9d311c0a-e4cd-4bc6-aec5-a79f3381d19e")) != null) {
-            getInstance().config.getRaw().set("messages.prefix", "&4[&cFrickOffPerotin&4] &7");
+            prefix = "&4[&cFrickOffPerotin&4] &7";
         }
 
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(player, s);
         }
-        FileConfiguration config = getInstance().getConfig();
 
-        return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", config.getString("messages.prefix")).replaceAll("%player_name%", player.getName()));
+        return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", prefix).replaceAll("%player_name%", player.getName()));
     }
     public static String parse(final String s) {
         FileConfiguration config = getInstance().getConfig();
@@ -144,7 +149,9 @@ public class OpenAFK extends JavaPlugin {
     public FileConfiguration getConfig() { return config.getRaw(); }
     public ConfigWrapper getData() { return data; }
     public DataHandler getPlayerData() { return playerData; }
+    public GroupConfig getGroups() { return groups; }
     public ActionParser getActionParser() { return actionParser; }
+
 
     public Integer getCheckAmount(Player player) { return checkAmounts.get(player); }
     public void setCheckAmount(Player player, int value) { checkAmounts.put(player, value); }
