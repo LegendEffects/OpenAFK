@@ -94,7 +94,20 @@ Resetting
   reset: true
 ```
 
-TO DOCUMENT: NametagAction
+### Invisibility
+Makes the actioned player visible or invisible to other players
+```yaml
+- action: "invisibility"
+  type: "show" #Valid values: "show", "hide"
+```
+
+### Nametag
+<b>REQUIRES NameTagEdit</b> Sets the players prefix, suffix or both with NametagEdit<br>
+```yaml
+- action: "nametag"
+  prefix: "&7[&c&lAFK&7] &9"
+  suffix: "PlayersSuffix" #(Optional)
+```
 
 ## Scripts
 Scripts are lists of actions which are ran in order, these define what actions to do when certain events happen.
