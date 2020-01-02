@@ -53,6 +53,7 @@ public class OpenAFK extends JavaPlugin {
 
         this.actionParser = new ActionParser(this);
 
+        actionParser.registerAction(new InvisibilityAction(this));
         actionParser.registerAction(new ActionBarAction(this));
         actionParser.registerAction(new AfkAreaAction(this));
         actionParser.registerAction(new BroadcastAction());
