@@ -35,4 +35,14 @@ public class AfkAreaAction extends AbstractAction {
         player.teleport(LocationHelper.deserialize(plugin.getPlayerData().getPlayer(player).getString("location")));
         data.deletePlayer(player);
     }
+
+    @Override
+    public boolean verifySyntax(Map<String, String> actionConfig, Plugin plugin) {
+        if(!this.plugin.getData().getRaw().contains("afkLocation")) {
+            plugin.getLogger().warning("[AfkAreaAction] No AFK area was set. Set it with /openafk set afkarea and then reload the server.");
+            return false;
+        }
+
+        return true;
+    }
 }
