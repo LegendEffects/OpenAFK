@@ -68,6 +68,7 @@ public class OpenAFK extends JavaPlugin {
         actionParser.registerScript("onAfkCMD", this.config.getRaw().getMapList("scripts.onAfkCMD"));
         actionParser.registerScript("onReturn", this.config.getRaw().getMapList("scripts.onReturn"));
         actionParser.registerScript("onReturnCMD", this.config.getRaw().getMapList("scripts.onReturnCMD"));
+        actionParser.registerScript("onFishingAFK", this.config.getRaw().getMapList("scripts.onFishingAFK"));
 
         PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(new PlayerDisconnect(this), this);

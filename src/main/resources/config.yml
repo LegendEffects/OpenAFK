@@ -37,10 +37,6 @@ detection:
     enabled: true
     violationsNeeded: 5
 
-    script:
-      - "message|%openafk_prefix%AFK Fishing isn't allowed."
-      - "setpitch|100"
-
   operatorsExempt: true # Players who have the permission openafk.exempt but aren't OP will still be exempt
 
 scripts:
@@ -92,3 +88,8 @@ scripts:
 
     - action: "message"
       content: "&bReturn by command."
+
+  onFishingAFK:
+    - "message|%openafk_prefix%AFK Fishing isn't allowed."
+    - "setpitch|100"
+
