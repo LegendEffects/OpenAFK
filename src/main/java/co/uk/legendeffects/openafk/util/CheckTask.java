@@ -23,6 +23,12 @@ public final class CheckTask extends BukkitRunnable {
             return false;
         }
 
+        // Prevent an error where it cannot measure distance between 2 different worlds
+        if(plugin.getLastLocation(player).getWorld() != player.getLocation().getWorld()) {
+            plugin.setLastLocation(player, player.getLocation());
+            return true;
+        }
+
         boolean movedEnough = plugin.getLastLocation(player).distance(player.getLocation()) > this.plugin.getConfig().getInt("movementDistance");
         plugin.setLastLocation(player, player.getLocation());
 
