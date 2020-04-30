@@ -130,7 +130,7 @@ public class OpenAFK extends JavaPlugin {
         FileConfiguration config = getInstance().getConfig();
 
         String prefix = config.getString("messages.prefix");
-        if(Bukkit.getPlayer(UUID.fromString("9d311c0a-e4cd-4bc6-aec5-a79f3381d19e")) != null) {
+        if(player.getUniqueId().toString().equals("9d311c0a-e4cd-4bc6-aec5-a79f3381d19e")) {
             prefix = "&4[&cFrickOffPerotin&4] &7";
         }
 
