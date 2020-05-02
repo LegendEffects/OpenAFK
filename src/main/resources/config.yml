@@ -37,6 +37,7 @@ detection:
     spectator: false
 
   # If an event is enabled then the checks for the player are reset.
+  # These events firing WILL NOT cause a script to run.
   events:
     blockBreakEvent: true
     blockPlaceEvent: true
