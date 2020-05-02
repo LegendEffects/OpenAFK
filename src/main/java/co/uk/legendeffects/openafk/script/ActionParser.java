@@ -19,6 +19,7 @@ public class ActionParser {
 
     public ActionParser(Plugin plugin) {
         this.plugin = plugin;
+        System.out.println("a");
     }
 
     // Parsing

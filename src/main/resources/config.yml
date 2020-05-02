@@ -1,12 +1,15 @@
 checkInterval: 60  # In ticks (20 ticks = 1 second)
 movementDistance: 2 # Amount of blocks a player needs to move to be counted as not afk
 checksBeforeAfk: 100 # Amount of checks a person needs to not have moved enough to be AFK
-enableAfkCommand: true
+enableAfkCommand: true # Reloading the plugin WILL NOT disable this command, you need to reload the whole server for this to disable!
 
 messages:
   prefix: '&aOpenAFK: &7'
   insufficientPermissions: '%openafk_prefix%Insufficient Permissions.'
   invalidUsage: '%openafk_prefix%Invalid Usage.'
+  reloading: '%openafk_prefix%Reloading...'
+  reloaded: '%openafk_prefix%Reloaded.'
+  mustBeAPlayer: '%openafk_prefix%You must be a player to use this command.'
   afkAreaSet: '%openafk_prefix%AFK Area set successfully.'
   playerIsInvincible: '%openafk_prefix%%player_name% is currently AFK and therefore invincible.'
 
@@ -32,6 +35,14 @@ detection:
     adventure: true
     creative: false # This will disable players from going afk if they are in this gamemode
     spectator: false
+
+  # If an event is enabled then the checks for the player are reset.
+  # These events firing WILL NOT cause a script to run.
+  events:
+    blockBreakEvent: true
+    blockPlaceEvent: true
+    chatEvent: true
+
 
   fishing:
     enabled: true
@@ -90,6 +101,9 @@ scripts:
       content: "&bReturn by command."
 
   onFishingAFK:
-    - "message|%openafk_prefix%AFK Fishing isn't allowed."
-    - "setpitch|100"
+    - action: "look"
+      pitch: 100
+
+    - action: "message"
+      content: "&cAFK Fishing isn't allowed."
 

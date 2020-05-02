@@ -25,7 +25,7 @@ public class CommandAction extends AbstractAction {
 
     @Override
     public boolean verifySyntax(Map<String, String> actionConfig, Plugin plugin) {
-        if(actionConfig.containsKey("by") && (!actionConfig.get("by").equalsIgnoreCase("player") || !actionConfig.get("by").equalsIgnoreCase("console"))) {
+        if(actionConfig.containsKey("by") && (!actionConfig.get("by").equalsIgnoreCase("player") && !actionConfig.get("by").equalsIgnoreCase("console"))) {
             plugin.getLogger().warning("[CommandAction] Invalid by parameter. Expected 'player' or 'console'.");
             return false;
         }
