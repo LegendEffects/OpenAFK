@@ -37,28 +37,32 @@ public final class CheckTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        this.plugin.getServer().getOnlinePlayers().forEach(player -> {
+        for(Player player : plugin.getServer().getOnlinePlayers()) {
+            // Debug
+//            Integer checks = plugin.getCheckAmount(player);
+//            if(checks != null) player.sendMessage("Checks: " + checks);
+
             // Cancel for conditions
-            if(plugin.isExempt(player)) return;
-            if(player.hasPermission("openafk.exempt") && !player.isOp()) return;
+            if(plugin.isExempt(player)) continue;
+            if(player.hasPermission("openafk.exempt") && !player.isOp()) continue;
 
             FileConfiguration c = plugin.getConfig();
-            if(c.getBoolean("detection.operatorsExempt") && player.isOp()) return;
+            if(c.getBoolean("detection.operatorsExempt") && player.isOp()) continue;
 
-            if(!c.getBoolean("detection.gamemodes.survival") && player.getGameMode() == GameMode.SURVIVAL) return;
-            if(!c.getBoolean("detection.gamemodes.adventure") && player.getGameMode() == GameMode.ADVENTURE) return;
-            if(!c.getBoolean("detection.gamemodes.creative") && player.getGameMode() == GameMode.CREATIVE) return;
-            if(!c.getBoolean("detection.gamemodes.spectator") && player.getGameMode() == GameMode.SPECTATOR) return;
+            if(!c.getBoolean("detection.gamemodes.survival") && player.getGameMode() == GameMode.SURVIVAL) continue;
+            if(!c.getBoolean("detection.gamemodes.adventure") && player.getGameMode() == GameMode.ADVENTURE) continue;
+            if(!c.getBoolean("detection.gamemodes.creative") && player.getGameMode() == GameMode.CREATIVE) continue;
+            if(!c.getBoolean("detection.gamemodes.spectator") && player.getGameMode() == GameMode.SPECTATOR) continue;
 
             if(this.movedEnough(player)) {
                 plugin.makePlayerReturn(player, ActionType.RETURN, "onReturn");
-                return;
+                continue;
             }
 
             Integer currentAmount = plugin.getCheckAmount(player);
             if(currentAmount == null) {
                 plugin.setCheckAmount(player, 1);
-                return;
+                continue;
             }
 
             int checksBeforeAfk = this.plugin.getConfig().getInt("checksBeforeAfk");
@@ -70,9 +74,9 @@ public final class CheckTask extends BukkitRunnable {
 
             if(currentAmount == checksBeforeAfk) {
                 plugin.makePlayerAfk(player, ActionType.AFK, "onAfk");
-                return;
+                continue;
             }
             plugin.setCheckAmount(player, currentAmount + 1);
-        });
+        }
     }
 }

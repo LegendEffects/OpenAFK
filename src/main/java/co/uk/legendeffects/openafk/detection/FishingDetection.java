@@ -27,8 +27,11 @@ public class FishingDetection implements Listener {
 
     @EventHandler
     public void fishEvent(PlayerFishEvent event) {
-        Player player = event.getPlayer();
+        if(!plugin.getConfig().getBoolean("detection.fishing.enabled")) {
+            return;
+        }
 
+        Player player = event.getPlayer();
         if(event.getState() == PlayerFishEvent.State.FISHING) {
             playersFishing.add(player);
         } else {
@@ -38,6 +41,10 @@ public class FishingDetection implements Listener {
 
     @EventHandler
     public void playerInteract(PlayerInteractEvent event) {
+        if(!plugin.getConfig().getBoolean("detection.fishing.enabled")) {
+            return;
+        }
+
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getMaterial() == Material.FISHING_ROD && playersFishing.contains(event.getPlayer())) {
             if(event.getClickedBlock().getBlockData().getMaterial() == Material.NOTE_BLOCK) {
                 increaseViolationLevel(event.getPlayer());
