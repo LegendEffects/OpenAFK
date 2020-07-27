@@ -74,7 +74,7 @@ Changes where a players head is, using yaw and pitch.
 ### Command
 Issues a command by a player or by console.
 ```yaml
-- action: "message"
+- action: "command"
   by: "player" #(Optional - defaults to player) accepts player or console
   command: "/help" # Console commands do NOT use the /
 ```
