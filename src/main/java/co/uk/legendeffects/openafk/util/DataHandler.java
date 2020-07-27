@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class DataHandler {
-    private JavaPlugin plugin;
-    private HashMap<Player, FileConfiguration> attributedData = new HashMap<>();
+    private final JavaPlugin plugin;
+    private final HashMap<Player, FileConfiguration> attributedData = new HashMap<>();
 
     public DataHandler(JavaPlugin plugin) {
         this.plugin = plugin;

@@ -177,6 +177,7 @@ public class OpenAFK extends JavaPlugin {
         actionParser.registerScript("onReturn", this.config.getRaw().getMapList("scripts.onReturn"));
         actionParser.registerScript("onReturnCMD", this.config.getRaw().getMapList("scripts.onReturnCMD"));
         actionParser.registerScript("onFishingAFK", this.config.getRaw().getMapList("scripts.onFishingAFK"));
+        actionParser.registerScript("onAfkDisconnect", this.config.getRaw().getMapList("scripts.onAfkDisconnect"));
     }
 
     //

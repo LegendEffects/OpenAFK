@@ -88,6 +88,11 @@ scripts:
     - action: "actionbar"
       content: "&a&lWelcome Back."
 
+  onAfkDisconnect: # Some actions may not work as the player is technically destroyed by this point.
+    - action: "command"
+      by: "console"
+      command: "openafk help"
+
   onAfkCMD:
     - action: "afkarea"
 
