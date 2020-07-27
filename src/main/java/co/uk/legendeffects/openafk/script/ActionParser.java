@@ -12,14 +12,13 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActionParser {
-    private Map<String, AbstractAction> actions = new HashMap<>();
-    private Map<String, List<Map<String, String>>> scripts = new HashMap<>();
+    private final Map<String, AbstractAction> actions = new HashMap<>();
+    private final Map<String, List<Map<String, String>>> scripts = new HashMap<>();
 
     private final Plugin plugin;
 
     public ActionParser(Plugin plugin) {
         this.plugin = plugin;
-        System.out.println("a");
     }
 
     // Parsing
