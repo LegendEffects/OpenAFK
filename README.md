@@ -5,6 +5,8 @@ An open source AFK plugin for Spigot.
 * openafk.exempt - Prevents the player from being detected as AFK
 * openafk.isafk - Allows access to the /isafk command
 * openafk.admin - Allows access to the /openafk command
+* openafk.afk - Allows access to the /afk command
+=======
 
 ## Commands
 * /isafk <username/uuid> - Checks if a player is AFK

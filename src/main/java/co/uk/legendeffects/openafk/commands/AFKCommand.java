@@ -21,6 +21,11 @@ public class AFKCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
+        if(!player.hasPermission("openafk.afk")) {
+            sender.sendMessage(OpenAFK.parse(player, plugin.getConfig().getString("messages.insufficientPermissions")));
+            return true;
+        }
+
         if(plugin.isAfkPlayer(player)) {
             plugin.makePlayerReturn(player, ActionType.RETURN_BY_COMMAND, "onReturnCMD");
             return true;
