@@ -1,6 +1,18 @@
 # OpenAFK
 An open source AFK plugin for Spigot.
 
+## Permissions
+* openafk.exempt - Prevents the player from being detected as AFK
+* openafk.isafk - Allows access to the /isafk command
+* openafk.admin - Allows access to the /openafk command
+* openafk.afk - Allows access to the /afk command
+
+## Commands
+* /isafk <username/uuid> - Checks if a player is AFK
+* /afkplayers - Gives a list of AFK players
+* /openafk - Admin OpenAFK Command
+* /afk - Toggles the executors AFK status
+
 ## Understanding the annotations.
 * **Parameters with an "(optional)" next to them don't need to be provided unless wanted.**
 
@@ -63,7 +75,7 @@ Changes where a players head is, using yaw and pitch.
 ### Command
 Issues a command by a player or by console.
 ```yaml
-- action: "message"
+- action: "command"
   by: "player" #(Optional - defaults to player) accepts player or console
   command: "/help" # Console commands do NOT use the /
 ```
