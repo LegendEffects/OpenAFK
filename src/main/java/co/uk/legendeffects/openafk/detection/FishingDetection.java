@@ -22,8 +22,8 @@ public class FishingDetection implements Listener {
         this.plugin = plugin;
     }
 
-    private Set<Player> playersFishing = new HashSet<>();
-    private HashMap<Player, Integer> violationLevel = new HashMap<>();
+    private final Set<Player> playersFishing = new HashSet<>();
+    private final HashMap<Player, Integer> violationLevel = new HashMap<>();
 
     @EventHandler
     public void fishEvent(PlayerFishEvent event) {

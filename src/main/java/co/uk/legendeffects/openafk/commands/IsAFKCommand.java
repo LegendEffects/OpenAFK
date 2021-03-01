@@ -30,30 +30,24 @@ public class IsAFKCommand implements CommandExecutor {
 
         if(args[0].length() == 36) {
             Player target = Bukkit.getPlayer(UUID.fromString(args[0]));
-            if(target == null) {
-                sender.sendMessage(OpenAFK.parse(plugin.getConfig().getString("messages.isAfk.unknown")));
-                return true;
-            }
-
-            if(plugin.isAfkPlayer(target)) {
-                sender.sendMessage(OpenAFK.parse(target, plugin.getConfig().getString("messages.isAfk.afk")));
-            } else {
-                sender.sendMessage(OpenAFK.parse(target, plugin.getConfig().getString("messages.isAfk.notAfk")));
-            }
-            return true;
+            return sendIsAFKResponse(sender, target);
         }
 
         Player target = Bukkit.getPlayer(args[0]);
+        return sendIsAFKResponse(sender, target);
+    }
+
+    private boolean sendIsAFKResponse(CommandSender sender, Player target) {
         if(target == null) {
             sender.sendMessage(OpenAFK.parse(plugin.getConfig().getString("messages.isAfk.unknown")));
             return true;
         }
+
         if(plugin.isAfkPlayer(target)) {
             sender.sendMessage(OpenAFK.parse(target, plugin.getConfig().getString("messages.isAfk.afk")));
         } else {
             sender.sendMessage(OpenAFK.parse(target, plugin.getConfig().getString("messages.isAfk.notAfk")));
         }
-
         return true;
     }
 }

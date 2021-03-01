@@ -13,7 +13,7 @@ public class OnBlockPlace implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockPlaceEvent event) {
+    public void onBlockPlace(BlockPlaceEvent event) {
         if(!plugin.getConfig().getBoolean("detection.events.blockPlaceEvent")) {
             return;
         }
