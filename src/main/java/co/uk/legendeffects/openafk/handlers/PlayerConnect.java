@@ -16,7 +16,7 @@ public class PlayerConnect implements Listener {
     }
 
     @EventHandler
-    public void handler(PlayerJoinEvent event) {
+    public void onPlayerConnect(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         DataHandler data = plugin.getPlayerData();
 

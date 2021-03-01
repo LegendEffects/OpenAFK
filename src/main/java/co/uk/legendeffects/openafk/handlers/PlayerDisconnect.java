@@ -14,7 +14,7 @@ public class PlayerDisconnect implements Listener {
     }
 
     @EventHandler
-    public void Handler(PlayerQuitEvent event) {
+    public void onPlayerDisconnect(PlayerQuitEvent event) {
         if(this.openAFK.isAfkPlayer(event.getPlayer())) {
             openAFK.getActionParser().parse(event.getPlayer(), ActionType.OTHER, "onAfkDisconnect");
         }

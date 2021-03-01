@@ -13,7 +13,7 @@ public class OnChat implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(AsyncPlayerChatEvent event) {
+    public void onChat(AsyncPlayerChatEvent event) {
         if(!plugin.getConfig().getBoolean("detection.events.chatEvent")) {
             return;
         }
