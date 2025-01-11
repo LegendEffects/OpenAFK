@@ -91,6 +91,7 @@
             <groupId>com.nametagedit</groupId>
             <artifactId>nametagedit</artifactId>
             <version>4.4.16</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
