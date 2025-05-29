@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.Map;
 
 public class AfkAreaAction extends AbstractAction {
-    OpenAFK plugin;
+    private final OpenAFK plugin;
 
     public AfkAreaAction(OpenAFK plugin) {
         super("afkarea");

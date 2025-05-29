@@ -79,7 +79,7 @@ public class OpenAFK extends JavaPlugin {
         manager.registerEvents(new OnChat(this), this);
 
         // Hook into PAPI
-        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PAPIHook(this).register();
         }
 
@@ -88,12 +88,12 @@ public class OpenAFK extends JavaPlugin {
         getCommand("openafk").setExecutor(new OpenAFKCommand(this));
         getCommand("isafk").setExecutor(new IsAFKCommand(this));
 
-        if(this.getConfig().getBoolean("enableAfkCommand")) {
+        if (this.getConfig().getBoolean("enableAfkCommand")) {
             getCommand("afk").setExecutor(new AFKCommand(this));
         }
 
-        for(Player player : Bukkit.getOnlinePlayers()) {
-            if(playerData.playerHasData(player)) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (playerData.playerHasData(player)) {
                 playerData.getPlayer(player);
                 afkPlayers.add(player);
             }
@@ -145,22 +145,14 @@ public class OpenAFK extends JavaPlugin {
         checkTask = new CheckTask(this).runTaskTimer(this, 0L, this.getConfig().getLong("checkInterval", 20L));
     }
 
-
-
     public static String parse(final Player player, final String s) {
-        // This is an easter egg for whenever "perotin" is online. He insulted me okay Kappa.
         FileConfiguration config = getInstance().getConfig();
 
-        String prefix = config.getString("messages.prefix");
-        if(player.getUniqueId().toString().equals("9d311c0a-e4cd-4bc6-aec5-a79f3381d19e")) {
-            prefix = "&4[&cFrickOffPerotin&4] &7";
-        }
-
-        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(player, s);
         }
 
-        return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", prefix).replaceAll("%player_name%", player.getName()));
+        return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", config.getString("messages.prefix")).replaceAll("%player_name%", player.getName()));
     }
 
     public static String parse(final String s) {

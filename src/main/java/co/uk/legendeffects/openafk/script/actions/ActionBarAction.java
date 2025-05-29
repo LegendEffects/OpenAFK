@@ -16,7 +16,8 @@ import java.util.Map;
 
 public class ActionBarAction extends AbstractAction {
     private BukkitTask updateQueue;
-    private HashMap<Player, String> recipients = new HashMap<>();
+
+    private final HashMap<Player, String> recipients = new HashMap<>();
     private final Plugin plugin;
 
     public ActionBarAction(Plugin plugin) {
@@ -32,7 +33,7 @@ public class ActionBarAction extends AbstractAction {
             updateQueue = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    recipients.forEach((playerLoop, message) -> { sendActionBar(playerLoop, message); });
+                    recipients.forEach((playerLoop, message) -> sendActionBar(playerLoop, message));
                 }
             }.runTaskTimer(plugin, 0L, 40L);
         }
