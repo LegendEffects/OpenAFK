@@ -4,10 +4,10 @@ import co.uk.legendeffects.openafk.commands.AFKCommand;
 import co.uk.legendeffects.openafk.commands.AFKPlayersCommand;
 import co.uk.legendeffects.openafk.commands.IsAFKCommand;
 import co.uk.legendeffects.openafk.commands.OpenAFKCommand;
+import co.uk.legendeffects.openafk.detection.ActiveDetection;
 import co.uk.legendeffects.openafk.detection.FishingDetection;
 import co.uk.legendeffects.openafk.events.PlayerAfkEvent;
 import co.uk.legendeffects.openafk.events.PlayerReturnEvent;
-import co.uk.legendeffects.openafk.handlers.*;
 import co.uk.legendeffects.openafk.script.ActionParser;
 import co.uk.legendeffects.openafk.script.ActionType;
 import co.uk.legendeffects.openafk.script.actions.*;
@@ -71,12 +71,8 @@ public class OpenAFK extends JavaPlugin {
 
         // Events
         PluginManager manager = getServer().getPluginManager();
-        manager.registerEvents(new PlayerDisconnect(this), this);
-        manager.registerEvents(new PlayerConnect(this), this);
+        manager.registerEvents(new ActiveDetection(this), this);
         manager.registerEvents(new FishingDetection(this), this);
-        manager.registerEvents(new OnBlockBreak(this), this);
-        manager.registerEvents(new OnBlockPlace(this), this);
-        manager.registerEvents(new OnChat(this), this);
 
         // Hook into PAPI
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
