@@ -168,6 +168,13 @@ public class OpenAFK extends JavaPlugin {
         return ChatColor.translateAlternateColorCodes('&', s.replaceAll("%openafk_prefix%", config.getString("messages.prefix")));
     }
 
+    public void forgetPlayer(Player player) {
+        afkPlayers.remove(player);
+        checkAmounts.remove(player);
+        lastLocations.remove(player);
+        playerData.unloadPlayer(player);
+    }
+
     //
     // Private
     //
@@ -200,7 +207,6 @@ public class OpenAFK extends JavaPlugin {
     // Setters
     //
     public void setCheckAmount(Player player, int value) { checkAmounts.put(player, value); }
-    public void removeAfkPlayerFromCache(Player player) { afkPlayers.remove(player); }
     public void addExemptPlayer(Player player) { exemptPlayers.add(player); }
     public void removeExemptPlayer(Player player) { exemptPlayers.remove(player); }
     public void setLastLocation(Player player, Location newLocation) { this.lastLocations.put(player, newLocation); }

@@ -16,10 +16,10 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent event) {
         if(this.openAFK.isAfkPlayer(event.getPlayer())) {
+        if (this.openAFK.isAfkPlayer(event.getPlayer())) {
             openAFK.getActionParser().parse(event.getPlayer(), ActionType.OTHER, "onAfkDisconnect");
         }
 
-        this.openAFK.getPlayerData().unloadPlayer(event.getPlayer());
-        this.openAFK.removeAfkPlayerFromCache(event.getPlayer());
+        this.openAFK.forgetPlayer(event.getPlayer());
     }
 }
