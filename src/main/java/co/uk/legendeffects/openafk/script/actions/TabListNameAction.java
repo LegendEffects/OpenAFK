@@ -10,9 +10,9 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 
-public class NametagAction extends AbstractTabAction {
-    public NametagAction(OpenAFK plugin) {
-        super("nametag", plugin);
+public class TabListNameAction extends AbstractTabAction {
+    public TabListNameAction(OpenAFK plugin) {
+        super("tabListName", plugin);
     }
 
     @Override
@@ -24,28 +24,27 @@ public class NametagAction extends AbstractTabAction {
         }
 
         if (config.containsKey("prefix")) {
-            TabAPI.getInstance().getNameTagManager().setPrefix(tabPlayer, config.get("prefix"));
+            TabAPI.getInstance().getTabListFormatManager().setPrefix(tabPlayer, config.get("prefix"));
         }
 
         if (config.containsKey("suffix")) {
-            TabAPI.getInstance().getNameTagManager().setSuffix(tabPlayer, config.get("suffix"));
+            TabAPI.getInstance().getTabListFormatManager().setSuffix(tabPlayer, config.get("suffix"));
         }
     }
 
-    @Override
     public boolean verifySyntax(Map<String, String> actionConfig, Plugin plugin) {
         if (!Bukkit.getPluginManager().isPluginEnabled("TAB")) {
-            plugin.getLogger().warning("[NametagAction] The nametag action requires TAB to be installed.");
+            plugin.getLogger().warning("[TabListNameAction] This action requires TAB to be installed.");
             return false;
         }
 
-        if (TabAPI.getInstance().getNameTagManager() == null) {
-            plugin.getLogger().warning("[NametagAction] The nametag module of TAB needs to be enabled.");
+        if (TabAPI.getInstance().getTabListFormatManager() == null) {
+            plugin.getLogger().warning("[TabListNameAction] The TabListFormatManager module of TAB needs to be enabled.");
             return false;
         }
 
         if (!actionConfig.containsKey("prefix") && !actionConfig.containsKey("suffix")) {
-            plugin.getLogger().warning("[NametagAction] No prefix or suffix parameters were provided.");
+            plugin.getLogger().warning("[TabListNameAction] No prefix or suffix parameters were provided.");
             return false;
         }
 

@@ -116,9 +116,21 @@ Makes the actioned player visible or invisible to other players.
 ```
 
 ### Nametag
-<b>REQUIRES NameTagEdit</b> Sets the players prefix, suffix or both with NametagEdit<br>
+<b>REQUIRES [TAB](https://github.com/NEZNAMY/TAB)</b> Sets the players nametag prefix, suffix or both with TAB<br>
+
+To reset, provide null.
 ```yaml
 - action: "nametag"
+  prefix: "&7[&c&lAFK&7] &9"
+  suffix: "PlayersSuffix" #(Optional)
+```
+
+### TabListName
+<b>REQUIRES [TAB](https://github.com/NEZNAMY/TAB)</b> Sets the players tablist prefix, suffix or both with TAB<br>
+
+To reset, provide null.
+```yaml
+- action: "tabListName"
   prefix: "&7[&c&lAFK&7] &9"
   suffix: "PlayersSuffix" #(Optional)
 ```

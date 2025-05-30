@@ -69,8 +69,8 @@
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
-            <id>upstream</id>
-            <url>https://ci.nametagedit.com/plugin/repository/everything/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -88,9 +88,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.nametagedit</groupId>
-            <artifactId>nametagedit</artifactId>
-            <version>4.4.16</version>
+            <groupId>com.github.NEZNAMY</groupId>
+            <artifactId>TAB-API</artifactId>
+            <version>5.2.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

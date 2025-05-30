@@ -6,7 +6,7 @@ authors: [LegendEffects]
 description: The Open Source AFK Plugin
 website: legendeffects.co.uk
 
-softdepend: [PlaceholderAPI, NametagEdit]
+softdepend: [PlaceholderAPI, TAB]
 
 commands:
   openafk:

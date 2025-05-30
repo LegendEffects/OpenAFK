@@ -53,13 +53,12 @@ public class ActionParser {
         List<Map<String,String>> parsed = new LinkedList<>();
         AtomicInteger lineTracker = new AtomicInteger(1);
 
-
         script.forEach(unparsedLine -> {
             Map<String, String> line = new HashMap<>();
             int lineNum = lineTracker.getAndIncrement();
 
             // Parse the object because umm... types.
-            unparsedLine.forEach((key, val) -> { line.put(String.valueOf(key), String.valueOf(val)); });
+            unparsedLine.forEach((key, val) -> { line.put(String.valueOf(key), val == null ? null : String.valueOf(val)); });
 
             if(!line.containsKey("action")) {
                 plugin.getLogger().warning("No action value is provided in script "+name+", on line "+lineNum+", skipping.");

@@ -18,9 +18,9 @@ public class DataHandler {
     }
 
     private FileConfiguration loadPlayerData(Player player) {
-        File file = new File(plugin.getDataFolder(), "players" + File.separator + player.getUniqueId().toString() + ".yml");
+        File file = getPlayerDataFile(player);
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.getParentFile().mkdirs();
             try {
                 file.createNewFile();
@@ -37,17 +37,18 @@ public class DataHandler {
 
     public void savePlayer(Player player) {
         try {
-            attributedData.get(player).save(new File(plugin.getDataFolder(), "players"+File.separator+player.getUniqueId().toString()+".yml"));
+            attributedData.get(player).save(getPlayerDataFile(player));
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
     public FileConfiguration getPlayer(Player player) {
-        if(attributedData.containsKey(player)) {
+        if (attributedData.containsKey(player)) {
             return attributedData.get(player);
         }
-        return this.loadPlayerData(player);
+
+        return loadPlayerData(player);
     }
 
     public void unloadPlayer(Player player) {
@@ -56,11 +57,14 @@ public class DataHandler {
 
     public boolean deletePlayer(Player player) {
         unloadPlayer(player);
-        return new File(plugin.getDataFolder(), "players"+File.separator+player.getUniqueId().toString()+".yml").delete();
+        return getPlayerDataFile(player).delete();
     }
 
     public boolean playerHasData(Player player) {
-        File file = new File(plugin.getDataFolder(), "players" + File.separator + player.getUniqueId().toString() + ".yml");
-        return file.exists();
+        return getPlayerDataFile(player).exists();
+    }
+
+    private File getPlayerDataFile(Player player) {
+        return new File(plugin.getDataFolder(), "players" + File.separator + player.getUniqueId() + ".yml");
     }
 }
